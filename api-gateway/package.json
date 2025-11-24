@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "morgan": "^1.10.1"
   },
   "name": "api-gateway",
   "type": "module",
@@ -8,6 +9,7 @@
   "main": "server.ts",
   "devDependencies": {
     "@types/express": "^5.0.5",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.10.1",
     "http-proxy-middleware": "^3.0.5",
     "nodemon": "^3.1.11",
