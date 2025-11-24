@@ -1,0 +1,15 @@
+/# Ignore node_modules everywhere (catch-all)
+node_modules/
+**/node_modules/
+
+# Optional: specific service folders (kept for readability)
+api-gateway/node_modules/
+cv-service/node_modules/
+user-service/node_modules/
+front-app/node_modules/
+
+# Common additional ignores
+dist/
+build/
+.env
+.DS_Store
