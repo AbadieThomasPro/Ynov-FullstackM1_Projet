@@ -5,3 +5,5 @@ Le projet FullStack choisit est une application qui permet aux utilsateur d'enre
 ## Fonctionnalitées:
 
 - Création, modification,
+- Propose des recettes avec le contenue de mon frigo
+-

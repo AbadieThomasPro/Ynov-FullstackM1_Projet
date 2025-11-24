@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch src --ext ts,js --exec \"node --loader ts-node/esm src/server.ts\"",
     "dev": "nodemon src/server.ts"
   },
   "keywords": [],
