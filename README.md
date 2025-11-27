@@ -1,7 +1,7 @@
 # 🍽️ Ynov Fullstack M1 — Application de recettes de cuisine
 
-![Node](https://img.shields.io/badge/Node-v18-green)
-![Angular](https://img.shields.io/badge/Angular-v16-red)
+![Node](https://img.shields.io/badge/Node-v22-green)
+![Angular](https://img.shields.io/badge/Angular-v19.2-red)
 
 Cette application centralise l’ensemble des fonctionnalités utiles en cuisine : gestion de recettes, planification des repas, suivi intelligent des ingrédients du frigo, génération optimisée de listes de courses et suggestions personnalisées.  
 Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, menus équilibrés…), elle offre une solution complète et intuitive pour faciliter la préparation des repas et mieux organiser son quotidien culinaire.
@@ -74,6 +74,13 @@ J’ai choisi **Angular** pour plusieurs raisons :
 - **Reactive Forms**, très utile pour l’ajout/édition des recettes avec la sécurité apporté par les validators.
 - **Écosystème complet** : routing, guards, animations, CLI puissante…
 
+### **ORM: Prisma**
+
+- **Ergonomie TypeScript** génération automatique de types pour les modèles et sécurité au moment de la compilation.
+- **Générations** automatiques de types.
+- **Migration intégrées**:facilite la gestion des schémas et des versions de la BDD (Prisma migrate).
+- **Productivité**: requêtes lisibles, bonnes performances pour les usages CRUD et jointures typiques (recipes ↔ ingredients).
+
 ### 🐘 **Base de données : PostgreSQL**
 
 - Base **relationnelle robuste**, adaptée aux entités interdépendantes (recettes, ingrédients, utilisateurs).
@@ -124,6 +131,8 @@ L'application est organisée selon une architecture **« Gateway + microservices
 4. Les fichiers médias sont soit stockés :
    - Sur un volume Docker en développement.
    - Sur un service **S3** en production.
+
+![Architecture de l'application](./docs/Schéma-architecture.drawio.png)
 
 ---
 
