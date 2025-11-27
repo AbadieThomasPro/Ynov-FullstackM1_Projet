@@ -132,7 +132,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
    - Sur un volume Docker en développement.
    - Sur un service **S3** en production.
 
-![Architecture de l'application](./docs/Schéma-architecture.drawio.png)
+![Architecture de l'application](./doc/Schéma-architecture.drawio.png)
 
 ---
 
