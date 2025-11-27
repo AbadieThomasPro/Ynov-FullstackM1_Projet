@@ -16,23 +16,17 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 - **Filtre par allergènes** : exclusion des recettes contenant certains ingrédients
 - **Minuteur intégré** : timer disponible pour chaque étape ou temps de cuisson
 
----
-
 ### 🧊 Gestion du frigo & ingrédients
 
 - **Gestion du frigo avancée** : ajout des aliments avec quantité et date d’expiration
 - **Alertes de péremption** : notifications lorsque les ingrédients approchent de la date limite
 - **Scan de code-barres** : ajout automatique d’un ingrédient au frigo
 
----
-
 ### 🤖 Systèmes intelligents & automatisations
 
 - **Suggestions automatiques** : recommandations de recettes basées sur les ingrédients disponibles
 - **Analyse nutritionnelle automatique** _(API Edamam)_ : calories, macros et valeurs nutritionnelles calculées automatiquement
 - **Suggestion de menus équilibrés** : menus hebdomadaires thématisés (“healthy”, “économique”, “rapide”…)
-
----
 
 ### 🗂️ Organisation des repas & courses
 
@@ -92,79 +86,109 @@ J’ai choisi **Angular** pour plusieurs raisons :
 
 ### Architecture — vue d'ensemble
 
-L'application est organisée en architecture « Gateway + services » (microservices légers) avec un frontend Angular. L'objectif est de séparer clairement les responsabilités : la Gateway centralise l'accès, la sécurité et le routage ; des services spécialisés (api-user, api-recipe, éventuellement media-service) gèrent la logique métier ; PostgreSQL conserve les données relationnelles.
+L'application est organisée selon une architecture **« Gateway + microservices légers »** avec un frontend Angular. L'objectif est de **séparer clairement les responsabilités** :
 
-Flux principal (résumé)
+- La **Gateway** centralise l'accès, la sécurité et le routage.
+- Les **services spécialisés** (api-user, api-recipe, éventuellement media-service) gèrent la logique métier.
+- **PostgreSQL** conserve les données relationnelles.
 
-- Le client (Angular) fait toutes les requêtes vers l'API Gateway.
+#### Flux principal
 
-- La Gateway effectue l'authentification/validation de base, applique les règles CORS/rate-limit et proxifie les requêtes vers les services adaptés (/user → api-user, /recipe → api-recipe).
+1. Le client (Angular) fait toutes les requêtes vers l'API Gateway.
 
-- Les services communiquent avec PostgreSQL pour lire/écrire les données.
+2. La Gateway:
 
-- Les fichiers médias sont soit stockés sur un volume Docker en dev, soit sur un service S3 en production.
+   - Vérifie l'authentification et effectue une validation de base.
+   - Applique les règles **CORS** et **rate-limit**.
+   - Proxifie les requêtes vers les services adaptés (`/user → api-user`, `/recipe → api-recipe`).
 
-```mermaid
-flowchart LR
-  subgraph Client
-    A[Frontend - Angular]
-  end
+3. Les services communiquent avec **PostgreSQL** pour lire ou écrire les données.
 
-  subgraph Gateway
-    G[API Gateway - Express<br/>+ http-proxy-middleware]
-  end
+4. Les fichiers médias sont soit stockés :
+   - Sur un volume Docker en développement.
+   - Sur un service **S3** en production.
 
-  subgraph Services
-    U[api-user (Express)]
-    R[api-recipe (Express)]
-    M[media-service / S3]
-  end
-
-  subgraph Data
-    P[(PostgreSQL)]
-  end
-
-  A -->|HTTP/HTTPS| G
-  G -->|/user/*| U
-  G -->|/recipe/*| R
-  G -->|/media/*| M
-  U --> P
-  R --> P
-  R --> M
-```
+---
 
 ### Rôle détaillé de chaque bloc
 
-- Frontend (Angular)
+#### Frontend (Angular)
 
-  - Responsabilités : interface utilisateur, formulaires (création / modification de recettes), recherche/filtrage, affichage des médias, gestion des états (favs, frigo)...
+- **Responsabilités :**
 
-  - Interactions : toutes les requêtes passent par la Gateway (pas d'accès direct aux services backend).
+  - Interface utilisateur, formulaires de création/modification de recettes.
+  - Recherche et filtrage de recettes.
+  - Affichage des médias (images, vidéos).
+  - Gestion des états (favoris, contenu du frigo, etc.).
 
-  - Sécurité : conserve l'access token (court terme) en mémoire ou utilise cookie HttpOnly pour le refresh token.
+- **Interactions :**
 
-- API Gateway (Express + http-proxy-middleware)
+  - Toutes les requêtes passent par la Gateway.
 
-  - Responsabilités :
-    - Point d’entrée unique pour le frontend.
-    - Centraliser CORS, logging (morgan), rate-limiting et éventuellement la mise en cache.
-    - Vérifier / valider le JWT avant de transférer la requête.
-    - Router/proxy les requêtes vers les services appropriés
-  - Pourquoi : simplifie la gestion des politiques transverses (auth, quotas, logs), unifie les coordonnées des services pour le frontend.
+- **Sécurité :**
+  - Stocke le **JWT court terme** en mémoire.
+  - Ou utilise un **cookie HttpOnly** pour le refresh token.
 
-- api-user (Express)
+---
 
-  - Responsabilités :
-    - CRUD recettes (titre, étapes, temps, tags, difficulté ...).
-    - Gestion des ingrédients et de la relation many-to-many (recipe_ingredients).
-    - Fonctionnalités métier : matching frigo → suggestions, filtres (temps, tags), pagination.
-    - Validation, pagination, et recherche
-  - Données: tables recipes, ingredients, recipe_ingredients
+#### API Gateway (Express + http-proxy-middleware)
 
-- api-user (Express)
+- **Responsabilités :**
+  - Point d’entrée unique pour le frontend.
+  - Centralisation de :
+    - **CORS**
+    - **Logging** (morgan)
+    - **Rate-limiting**
+    - Mise en cache éventuelle
+  - Vérification et validation du **JWT** avant transfert des requêtes.
+  - Routage / proxy vers les services appropriés.
+- **Avantages :**
+  - Simplifie la gestion des politiques transverses (authentification, quotas, logs).
+  - Unifie les coordonnées des services pour le frontend.
 
-- PostgreSQL
+---
 
-  - Responsabilités : stockage relationnel principal, en charge des transactions atomiques et des relations (recettes ↔ ingrédients).
+#### api-user (Express)
 
-  - Indexation pour performance sur recherches (title, tags, full-text).
+- **Responsabilités :**
+  - Inscription, connexion et gestion des **refresh tokens** (stockés hachés).
+  - Endpoints pour le profil utilisateur.
+  - Sécurité et validation (hash des mots de passe).
+- **Données :**
+  - Table `users`.
+- **Contrat minimal :**
+  - `POST /user/register`
+  - `POST /user/login`
+  - `POST /user/token/refresh`
+
+---
+
+#### api-recipe (Express)
+
+- **Responsabilités :**
+  - CRUD des recettes (titre, étapes, temps, tags, difficulté, etc.).
+  - Gestion des ingrédients et de la relation **many-to-many** (`recipe_ingredients`).
+  - Fonctionnalités métier :
+    - Matching frigo → suggestions
+    - Filtres (temps, tags)
+    - Pagination
+  - Validation et recherche optimisée
+- **Données :**
+  - Tables : `recipes`, `ingredients`, `recipe_ingredients`
+- **Contrat minimal :**
+  - `GET /recipe`
+  - `POST /recipe` (auth)
+  - `GET /recipe/:id`
+
+---
+
+#### PostgreSQL
+
+- **Responsabilités :**
+  - Stockage relationnel principal.
+  - Gestion des transactions atomiques et relations (recettes ↔ ingrédients).
+- **Optimisation :**
+  - Indexation pour la performance sur les recherches :
+    - `title`
+    - `tags`
+    - Recherche **full-text**
