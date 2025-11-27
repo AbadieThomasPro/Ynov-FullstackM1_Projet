@@ -1,5 +1,8 @@
 # 🍽️ Ynov Fullstack M1 — Application de recettes de cuisine
 
+![Node](https://img.shields.io/badge/Node-v18-green)
+![Angular](https://img.shields.io/badge/Angular-v16-red)
+
 Cette application centralise l’ensemble des fonctionnalités utiles en cuisine : gestion de recettes, planification des repas, suivi intelligent des ingrédients du frigo, génération optimisée de listes de courses et suggestions personnalisées.  
 Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, menus équilibrés…), elle offre une solution complète et intuitive pour faciliter la préparation des repas et mieux organiser son quotidien culinaire.
 
@@ -7,15 +10,15 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ## 📑 Table des matières
 
-- [Fonctionnalités](#-fonctionnalités)
-  - [Gestion des recettes](#-gestion-des-recettes)
-  - [Gestion du frigo & ingrédients](#-gestion-du-frigo--ingrédients)
-  - [Systèmes intelligents & automatisations](#-systèmes-intelligents--automatisations)
-  - [Organisation des repas & courses](#-organisation-des-repas--courses)
-  - [Recherche et navigation](#-recherche-et-navigation)
-  - [Gestion utilisateur & expérience](#-gestion-utilisateur--expérience)
-- [Stack technique & choix technologiques](#-stack-technique--choix-technologiques)
-- [Architecture et répartition des services](#architecture-et-répartition-des-services)
+- [✨ Fonctionnalités](#-fonctionnalités)
+  - [🍽️ Gestion des recettes](#-gestion-des-recettes)
+  - [🧊 Gestion du frigo & ingrédients](#-gestion-du-frigo--ingrédients)
+  - [🤖 Systèmes intelligents & automatisations](#-systèmes-intelligents--automatisations)
+  - [🗂️ Organisation des repas & courses](#-organisation-des-repas--courses)
+  - [🔍 Recherche et navigation](#-recherche-et-navigation)
+  - [🔐 Gestion utilisateur & expérience](#-gestion-utilisateur--expérience)
+- [🛠️ Stack technique & choix technologiques](#-stack-technique--choix-technologiques)
+- [🏛️ Architecture et répartition des services](#architecture-et-répartition-des-services)
 
 ---
 
@@ -62,7 +65,7 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ## 🛠️ Stack technique & choix technologiques
 
-### **Frontend : Angular**
+### 🔷 **Frontend : Angular**
 
 J’ai choisi **Angular** pour plusieurs raisons :
 
@@ -71,32 +74,32 @@ J’ai choisi **Angular** pour plusieurs raisons :
 - **Reactive Forms**, très utile pour l’ajout/édition des recettes avec la sécurité apporté par les validators.
 - **Écosystème complet** : routing, guards, animations, CLI puissante…
 
-### **Base de données : PostgreSQL**
+### 🐘 **Base de données : PostgreSQL**
 
 - Base **relationnelle robuste**, adaptée aux entités interdépendantes (recettes, ingrédients, utilisateurs).
 - Support des **transactions**, important pour garantir la cohérence lors de mises à jour multiples.
 - Très bonnes **performances** sur les requêtes de filtrage et matching d’ingrédients.
 - Support de **types avancés** (JSONB, arrays) pour les données semi-structurées.
 
-### **Authentification : JWT**
+### 🔐 **Authentification : JWT**
 
 - Fonctionnement **stateless**, parfait pour les APIs REST modernes.
 - Compatible avec les **SPA** comme Angular (stockage en mémoire ou cookies HttpOnly).
 - Possibilité d’utiliser un **refresh token** côté serveur pour renforcer la sécurité.
 
-### **Gestion des médias : Multer + stockage local ou cloud**
+### 📁 **Gestion des médias : Multer + stockage local ou cloud**
 
 - **Multer** permet de gérer facilement l’upload et la validation des fichiers.
 - Stockage flexible : en local pour le développement, ou sur un cloud (S3, Cloudinary…) en production.
 
-### **Logs : morgan**
+### 📝 **Logs : morgan**
 
 - Middleware simple pour **logger toutes les requêtes HTTP**.
 - Très utile pour analyser les comportements, déboguer et surveiller la performance de l’API.
 
 ---
 
-## Architecture et répartition des services
+## 🏛️ Architecture et répartition des services
 
 ### Architecture — vue d'ensemble
 
@@ -126,7 +129,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ### Rôle détaillé de chaque bloc
 
-#### Frontend (Angular)
+#### 🔷 Frontend (Angular)
 
 - **Responsabilités :**
 
@@ -145,7 +148,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ---
 
-#### API Gateway (Express + http-proxy-middleware)
+#### 🛡️ API Gateway (Express + http-proxy-middleware)
 
 - **Responsabilités :**
   - Point d’entrée unique pour le frontend.
@@ -162,7 +165,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ---
 
-#### api-user (Express)
+#### 👤 api-user (Express)
 
 - **Responsabilités :**
   - Inscription, connexion et gestion des **refresh tokens** (stockés hachés).
@@ -177,7 +180,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ---
 
-#### api-recipe (Express)
+#### 🥘 api-recipe (Express)
 
 - **Responsabilités :**
   - CRUD des recettes (titre, étapes, temps, tags, difficulté, etc.).
@@ -196,7 +199,7 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ---
 
-#### PostgreSQL
+#### 🐘 PostgreSQL
 
 - **Responsabilités :**
   - Stockage relationnel principal.
