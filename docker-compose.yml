@@ -8,6 +8,9 @@ services:
     ports:
       - "3000:3000" # point d'entrée public (gateway)
     restart: unless-stopped
+    environment:
+      - RECIPE_HOST=api-recipe
+      - USER_HOST=api-user
     depends_on:
       - api-user
       - api-recipe
@@ -19,7 +22,7 @@ services:
       context: ./api-user
       dockerfile: Dockerfile
     expose:
-      - "3333" # A enlever à la fin du projet pour pas donnée des points d'entrée autre que gateway [exposé au réseau autrement donc attaque possible]
+      - "3333"
     restart: unless-stopped
     networks:
       - app-network
