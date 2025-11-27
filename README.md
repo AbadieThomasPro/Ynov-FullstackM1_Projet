@@ -1,16 +1,53 @@
 # 🍽️ Ynov Fullstack M1 — Application de recettes de cuisine
 
-Cette application permet aux utilisateurs d'enregistrer, partager et rechercher des recettes de cuisine.
+Cette application centralise l’ensemble des fonctionnalités utiles en cuisine : gestion de recettes, organisation des repas, génération de listes de courses et suggestions basées sur les ingrédients disponibles.  
+Elle vise à offrir un outil complet, pratique et intuitif pour faciliter la préparation des repas au quotidien.
 
 ---
 
 ## ✨ Fonctionnalitées:
 
+### 🍽️ Gestion des recettes
+
 - **CRUD complet des recettes** : création, lecture, modification et suppression
+- **Téléversement de médias** : ajout d’images et de vidéos pour illustrer les recettes
+- **Système de favoris** : sauvegarde des recettes préférées
+- **Tags personnalisés** : catégories personnalisées pour faciliter le tri (“pique-nique”, “rapide”, “batch cooking”…)
+- **Filtre par allergènes** : exclusion des recettes contenant certains ingrédients
+- **Minuteur intégré** : timer disponible pour chaque étape ou temps de cuisson
+
+---
+
+### 🧊 Gestion du frigo & ingrédients
+
+- **Gestion du frigo avancée** : ajout des aliments avec quantité et date d’expiration
+- **Alertes de péremption** : notifications lorsque les ingrédients approchent de la date limite
+- **Scan de code-barres** : ajout automatique d’un ingrédient au frigo
+
+---
+
+### 🤖 Systèmes intelligents & automatisations
+
+- **Suggestions automatiques** : recommandations de recettes basées sur les ingrédients disponibles
+- **Analyse nutritionnelle automatique** _(API Edamam)_ : calories, macros et valeurs nutritionnelles calculées automatiquement
+- **Suggestion de menus équilibrés** : menus hebdomadaires thématisés (“healthy”, “économique”, “rapide”…)
+
+---
+
+### 🗂️ Organisation des repas & courses
+
+- **Liste des repas de la semaine** : planification hebdomadaire avec sélection des recettes
+- **Liste de courses** : génération automatique des ingrédients nécessaires
+- **Optimisation de la liste de courses** : regroupement par catégories (boucherie, légumes…) et calcul automatique des quantités
+
+### 🔍 Recherche et navigation
+
+- **Recherche avancée** : filtrage par ingrédients, temps de préparation et mots-clés
+
+### 🔐 Gestion utilisateur & expérience
+
 - **Authentification** : inscription, connexion, sécurisation des routes
-- **Recherche avancée** : filtrage par ingrédients, temps de préparation et mot-clé
-- **Téléversement de médias** : gestion d’images et de vidéos associées aux recettes
-- **Suggestions automatiques** : propositions de recettes basées sur le “frigo” (matching ingrédients ↔ recettes)
+- **Mode hors-ligne (PWA)** : accès aux recettes favorites sans connexion
 - **Interface responsive** : utilisable sur mobile, tablette et desktop
 
 ---
@@ -25,13 +62,6 @@ J’ai choisi **Angular** pour plusieurs raisons :
 - Utilisation native de **TypeScript**, ce qui augmente la fiabilité et la maintenabilité.
 - **Reactive Forms**, très utile pour l’ajout/édition des recettes avec la sécurité apporté par les validators.
 - **Écosystème complet** : routing, guards, animations, CLI puissante…
-
-<!-- ### **Backend : Node.js + Express**
-
-- Mise en place **simple et rapide** d’une API REST.
-- Très grande **communauté** et disponibilité de middlewares utiles (Multer, morgan…).
-- **Compatible naturellement avec JWT** pour l'authentification stateless.
-- Parfait pour un backend léger et flexible. -->
 
 ### **Base de données : PostgreSQL**
 
@@ -57,9 +87,3 @@ J’ai choisi **Angular** pour plusieurs raisons :
 - Très utile pour analyser les comportements, déboguer et surveiller la performance de l’API.
 
 ---
-
-- **Base de données** : PostgreSQL — relationnelle, bonnes performances, supporte transactions et requêtes complexes (recommandé pour recettes/ingrédients relationnels).
-
-- **Auth** : JWT pour sessions stateless ; rafraîchissement via refresh tokens stockés côté serveur si besoin.
-
-- **Logs** : morgan (express middleware) pour access logs ;

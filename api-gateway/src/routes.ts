@@ -23,23 +23,23 @@ const USER_HOST = process.env.USER_HOST || 'localhost';
 
 const ROUTES: Route[] = [
     {
-        url: '/recipe',
-        auth: false,
-        creditCheck: false,
-        proxy: {
-            target: `http://${RECIPE_HOST}:3030`,
-            changeOrigin: true,
-        }
-    },
-    {
         url: '/user',
         auth: false,
         creditCheck: false,
         proxy: {
-            target: `http://${USER_HOST}:3333`,
+            target: `http://${USER_HOST}:3001`,
             changeOrigin: true,
         }
-    }
+    },
+    {
+        url: '/recipe',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: `http://${RECIPE_HOST}:3002`,
+            changeOrigin: true,
+        }
+    },
 ];
 
 export { ROUTES };

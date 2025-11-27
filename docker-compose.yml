@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     container_name: api-user
     expose:
-      - "3333"
+      - "3001"
     restart: unless-stopped
     networks:
       - app-network
@@ -40,18 +40,21 @@ services:
       dockerfile: Dockerfile
     container_name: api-recipe
     expose:
-      - "3030"
+      - "3002"
     restart: unless-stopped
     networks:
       - app-network
     depends_on:
       - recipe-db
 
+  ############
+  # FRONTEND #
+  ############
   frontend:
     build:
       context: ./FRONTEND/AppCook
       dockerfile: Dockerfile
-    container_name: frontend-app
+    container_name: angular-app
     ports:
       - "4200:4200"
     environment:
@@ -101,6 +104,9 @@ services:
         aliases:
           - db-recipe
 
+  ###########
+  # adminer #
+  ###########
   adminer:
     image: adminer
     container_name: adminer
@@ -109,6 +115,24 @@ services:
       - "8080:8080"
     networks:
       - app-network
+
+  # user-adminer:
+  #   image: adminer
+  #   container_name: user-adminer
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:8081"
+  #   networks:
+  #     - app-network
+
+  # recipe-adminer:
+  #   image: adminer
+  #   container_name: recipe-adminer
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8082:8082"
+  #   networks:
+  #     - app-network
 
 volumes:
   user-db-data:
