@@ -1,10 +1,14 @@
 # version: "3.8"
 
 services:
+  #######
+  # API #
+  #######
   api-gateway:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
+    container_name: api-gateway
     ports:
       - "3000:3000" # point d'entrée public (gateway)
     restart: unless-stopped
@@ -21,6 +25,7 @@ services:
     build:
       context: ./api-user
       dockerfile: Dockerfile
+    container_name: api-user
     expose:
       - "3333"
     restart: unless-stopped
@@ -33,6 +38,7 @@ services:
     build:
       context: ./api-recipe
       dockerfile: Dockerfile
+    container_name: api-recipe
     expose:
       - "3030"
     restart: unless-stopped
@@ -41,8 +47,31 @@ services:
     depends_on:
       - recipe-db
 
+  frontend:
+    build:
+      context: ./FRONTEND/AppCook
+      dockerfile: Dockerfile
+    container_name: frontend-app
+    ports:
+      - "4200:4200"
+    environment:
+      - API_GATEWAY="http://api-gateway:3000/"
+    volumes:
+      - ./FRONTEND/AppCook:/src:delegated
+      - /src/node_modules # préserver node_modules du conteneur (évite conflit avec host)
+    command: sh -c "npm ci --no-audit --no-fund && npm run start -- --host 0.0.0.0"
+    restart: unless-stopped
+    networks:
+      - app-network
+    depends_on:
+      - api-gateway
+
+  #######
+  # BDD #
+  #######
   user-db:
     image: postgres:15-alpine
+    container_name: user-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
@@ -58,6 +87,7 @@ services:
 
   recipe-db:
     image: postgres:15-alpine
+    container_name: recipe-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: recipe
