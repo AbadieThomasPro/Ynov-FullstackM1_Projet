@@ -106,31 +106,31 @@ Flux principal (résumé)
 
 ```mermaid
 flowchart LR
-subgraph Client
-A[Frontend - Angular]
-end
+  subgraph Client
+    A[Frontend - Angular]
+  end
 
-subgraph Gateway
-G[API Gateway - Express + http-proxy-middleware]
-end
+  subgraph Gateway
+    G[API Gateway - Express<br/>+ http-proxy-middleware]
+  end
 
-subgraph Services
-U[api-user (Express)]
-R[api-recipe (Express)]
-M[media-service / S3]
-end
+  subgraph Services
+    U[api-user (Express)]
+    R[api-recipe (Express)]
+    M[media-service / S3]
+  end
 
-subgraph Data
-P[(PostgreSQL)]
-end
+  subgraph Data
+    P[(PostgreSQL)]
+  end
 
-A -->|HTTP/HTTPS| G
-G -->|/user/_| U
-G -->|/recipe/_| R
-G -->|/media/\*| M
-U --> P
-R --> P
-R --> M
+  A -->|HTTP/HTTPS| G
+  G -->|/user/*| U
+  G -->|/recipe/*| R
+  G -->|/media/*| M
+  U --> P
+  R --> P
+  R --> M
 ```
 
 ### Rôle détaillé de chaque bloc
