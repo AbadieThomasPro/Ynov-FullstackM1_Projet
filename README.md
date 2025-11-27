@@ -5,6 +5,20 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ---
 
+## 📑 Table des matières
+
+- [Fonctionnalités](#-fonctionnalités)
+  - [Gestion des recettes](#-gestion-des-recettes)
+  - [Gestion du frigo & ingrédients](#-gestion-du-frigo--ingrédients)
+  - [Systèmes intelligents & automatisations](#-systèmes-intelligents--automatisations)
+  - [Organisation des repas & courses](#-organisation-des-repas--courses)
+  - [Recherche et navigation](#-recherche-et-navigation)
+  - [Gestion utilisateur & expérience](#-gestion-utilisateur--expérience)
+- [Stack technique & choix technologiques](#-stack-technique--choix-technologiques)
+- [Architecture et répartition des services](#architecture-et-répartition-des-services)
+
+---
+
 ## ✨ Fonctionnalitées:
 
 ### 🍽️ Gestion des recettes
