@@ -1,0 +1,74 @@
+# version: "3.8"
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # point d'entrée public (gateway)
+    restart: unless-stopped
+    depends_on:
+      - api-user
+      - api-recipe
+    networks:
+      - app-network
+
+  api-user:
+    build:
+      context: ./api-user
+      dockerfile: Dockerfile
+    expose:
+      - "3333" # A enlever à la fin du projet pour pas donnée des points d'entrée autre que gateway [exposé au réseau autrement donc attaque possible]
+    restart: unless-stopped
+    networks:
+      - app-network
+    # depends_on:
+    #   - user-db
+
+  api-recipe:
+    build:
+      context: ./api-recipe
+      dockerfile: Dockerfile
+    expose:
+      - "3030"
+    networks:
+      - app-network
+    # depends_on:
+    #   - recipe-db
+
+  # user-db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: changeme
+  #     POSTGRES_DB: users_db
+  #   volumes:
+  #     - user-db-data:/var/lib/postgresql/data
+  #   networks:
+  #     - app-network
+
+  # user-pgAdmin:
+  #   image: postgres:15-alpine
+  #   environement:
+
+  # recipe-db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_USER: recipe
+  #     POSTGRES_PASSWORD: changeme
+  #     POSTGRES_DB: recipes_db
+  #     PGDATA: /var/lib/postgresql/data
+  #   volumes:
+  #     - recipe-db-data:/var/lib/postgresql/data
+  #   networks:
+  #     - app-network
+
+# volumes:
+#   user-db-data:
+#   recipe-db-data:
+
+networks:
+  app-network:
+    driver: bridge
+    external: true

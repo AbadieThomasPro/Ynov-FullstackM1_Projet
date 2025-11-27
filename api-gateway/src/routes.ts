@@ -15,6 +15,12 @@ interface Route {
     };
 }
 
+// Configure via env vars. En Docker Compose on passera RECIPE_HOST=api-recipe etc.
+// En dev local (tout en local) on peut omettre et laisser 'localhost'.
+const RECIPE_HOST = process.env.RECIPE_HOST || 'localhost';
+const USER_HOST = process.env.USER_HOST || 'localhost';
+
+
 const ROUTES: Route[] = [
     {
         url: '/public',
