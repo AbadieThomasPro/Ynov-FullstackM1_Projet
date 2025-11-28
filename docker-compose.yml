@@ -60,8 +60,8 @@ services:
     environment:
       - API_GATEWAY="http://api-gateway:3000/"
     volumes:
-      - ./FRONTEND/AppCook:/src:delegated
-      - /src/node_modules # préserver node_modules du conteneur (évite conflit avec host)
+      - ./FRONTEND/AppCook:/src:delegated # code live (hot-reload)
+      - /src/node_modules # node_modules isolé dans un volume (évite conflit avec host)
     command: sh -c "npm ci --no-audit --no-fund && npm run start -- --host 0.0.0.0"
     restart: unless-stopped
     networks:
@@ -81,6 +81,8 @@ services:
       POSTGRES_PASSWORD: user
       POSTGRES_DB: users_db
       PGDATA: /var/lib/postgresql/data
+    expose:
+      - "5442:5442"
     volumes:
       - user-db-data:/var/lib/postgresql/data
     networks:
@@ -97,6 +99,8 @@ services:
       POSTGRES_PASSWORD: recipe
       POSTGRES_DB: recipes_db
       PGDATA: /var/lib/postgresql/data
+    expose:
+      - "5443:5443"
     volumes:
       - recipe-db-data:/var/lib/postgresql/data
     networks:
@@ -137,6 +141,7 @@ services:
 volumes:
   user-db-data:
   recipe-db-data:
+  frontend-node-modules:
 
 networks:
   app-network:

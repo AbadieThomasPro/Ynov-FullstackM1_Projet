@@ -218,3 +218,22 @@ L'application est organisée selon une architecture **« Gateway + microservices
     - `title`
     - `tags`
     - Recherche **full-text**
+
+---
+
+## 📎Annexes:
+
+### 🧾 Création de la table `users` dans PostgreSQL
+
+La table **users** a été créée directement depuis **Adminer**.  
+Les captures ci-dessous confirment sa présence ainsi que sa structure dans la base de données.
+
+#### 📌 Requête de création / aperçu de la table
+
+![Création de la table users ](./doc/requete-table-user.png)
+
+#### 📌 Structure de la table dans Adminer
+
+![Table users](./doc/table-users.png)
+
+Ces éléments prouvent que la table est correctement enregistrée dans la base PostgreSQL et accessible par les services backend.
