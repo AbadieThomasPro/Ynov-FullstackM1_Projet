@@ -7,12 +7,17 @@ export const createUser = async (email: string, password: string) => {
    return user;
 };
 
-export const listUsers = async () => {
+export const listUsersService = async () => {
     const users = await listUsersModel();
     return users;
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteUserService = async (id: string) => {
     const user = await deleteUserModel(id);
     return user;
 };
+
+export const testApiUserService = () => {
+    const result = "Réponses test api-user";
+    return result;
+}

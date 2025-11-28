@@ -29,6 +29,13 @@ services:
     expose:
       - "3001"
     restart: unless-stopped
+    environment:
+      environment:
+      PGUSER: postgres
+      PGPASSWORD: password
+      PGHOST: postgres-user
+      PGPORT: 5442
+      PGDATABASE: userdb
     networks:
       - app-network
     depends_on:
@@ -42,6 +49,13 @@ services:
     expose:
       - "3002"
     restart: unless-stopped
+    environment:
+      environment:
+      PGUSER: postgres
+      PGPASSWORD: password
+      PGHOST: postgres-user
+      PGPORT: 5443
+      PGDATABASE: userdb
     networks:
       - app-network
     depends_on:
@@ -81,8 +95,7 @@ services:
       POSTGRES_PASSWORD: user
       POSTGRES_DB: users_db
       PGDATA: /var/lib/postgresql/data
-    expose:
-      - "5442:5442"
+      PGPORT: 5442
     volumes:
       - user-db-data:/var/lib/postgresql/data
     networks:
@@ -99,8 +112,7 @@ services:
       POSTGRES_PASSWORD: recipe
       POSTGRES_DB: recipes_db
       PGDATA: /var/lib/postgresql/data
-    expose:
-      - "5443:5443"
+      PGPORT: 5443
     volumes:
       - recipe-db-data:/var/lib/postgresql/data
     networks:

@@ -1,0 +1,10 @@
+<div class="home-wrapper">
+  <button pButton type="button" label="Tester API" (click)="onClick()"></button>
+
+
+  <!-- Debug snapshot in case async pipe doesn't update immediately -->
+  <div *ngIf="currentMessage" class="result debug">
+    <p>{{ currentMessage }}</p>
+  </div>
+
+</div>

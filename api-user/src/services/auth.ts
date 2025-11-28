@@ -18,22 +18,20 @@ export const login = async (email: string, password: string) => {
         return null;
     }
 
-    const accessToken = generateAccessToken({ id: user.id, email: user.email }); 
-    
-    
+    const accessToken = generateAccessToken({ id: user.id, email: user.email });
     const refreshToken = generateRefreshToken({ id: user.id, email: user.email });
     return { accessToken, refreshToken, user };
 };
 
-export const refreshToken = async (token) => {
+export const refreshToken = async (token: string) => {
     const decoded = verifyToken(token);
-    if (!decoded) {
+    if (!decoded || typeof decoded === 'string') {
         return null;
     }
-    const user = await getUserById(decoded.id);
+    const user = await getUserById((decoded as any).id);
     if (!user) {
         return null;
     }
-    const newToken = generateAccessToken({ id: user.id, email: user.email });
-    return { token: newToken, user };
+    const newAccessToken = generateAccessToken({ id: user.id, email: user.email });
+    return { accessToken: newAccessToken, user };
 };
