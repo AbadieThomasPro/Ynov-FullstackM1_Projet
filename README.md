@@ -74,7 +74,7 @@ J’ai choisi **Angular** pour plusieurs raisons :
 - **Reactive Forms**, très utile pour l’ajout/édition des recettes avec la sécurité apporté par les validators.
 - **Écosystème complet** : routing, guards, animations, CLI puissante…
 
-### **ORM: Prisma**
+### 💎 **ORM: Prisma**
 
 - **Ergonomie TypeScript** génération automatique de types pour les modèles et sécurité au moment de la compilation.
 - **Générations** automatiques de types.
