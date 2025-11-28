@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = process.env.JWT_SECRET || 'supersecret';
+const SECRET = process.env.JWT_ACCESS_SECRET || 'supersecret';
 
 
 export const generateAccessToken = (payload) => {
