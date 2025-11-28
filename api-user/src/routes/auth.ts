@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import { register, login } from '../controllers/auth.js';
 
-const router = Router();
+const authRouter = Router();
 
-router.post('/login', login);
+authRouter.post('/login', login);
 
-router.post('/register', register);
+authRouter.post('/register' , register);
 
-router.post('/logout', (req, res) => {
+authRouter.post('/logout', (req, res) => {
     res.send('Logout');
 });
 
 
-export default router;
+export default authRouter;
