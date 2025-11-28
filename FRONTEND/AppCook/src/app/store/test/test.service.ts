@@ -16,8 +16,6 @@ export class TestService {
   * retourne un string
   */
   test(): Observable<string> {
-    // Request as plain text to avoid any JSON parsing oddities and ensure we
-    // receive the raw string body from the gateway.
     return this.http.get(`${this.urlBase}/user/test`, { responseType: 'text' }) as Observable<string>;
   }
   
