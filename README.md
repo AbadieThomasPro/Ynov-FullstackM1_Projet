@@ -237,3 +237,10 @@ Les captures ci-dessous confirment sa présence ainsi que sa structure dans la b
 ![Table users](./doc/table-users.png)
 
 Ces éléments prouvent que la table est correctement enregistrée dans la base PostgreSQL et accessible par les services backend.
+
+
+### Lancer l'application
+
+docker network create app-network
+
+docker-compose up --build

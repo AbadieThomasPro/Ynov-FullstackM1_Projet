@@ -31,11 +31,11 @@ services:
     restart: unless-stopped
     environment:
       environment:
-      PGUSER: postgres
-      PGPASSWORD: password
-      PGHOST: postgres-user
-      PGPORT: 5442
-      PGDATABASE: userdb
+      PGUSER: ${PGUSER_USER}
+      PGPASSWORD: ${PGPASSWORD_USER}
+      PGHOST: ${PGHOST_USER}
+      PGPORT: ${PGPORT_USER}
+      PGDATABASE: ${PGDATABASE_USER}
     networks:
       - app-network
     depends_on:
@@ -51,11 +51,11 @@ services:
     restart: unless-stopped
     environment:
       environment:
-      PGUSER: postgres
-      PGPASSWORD: password
-      PGHOST: postgres-user
-      PGPORT: 5443
-      PGDATABASE: userdb
+      PGUSER: ${PGUSER_RECIPE}
+      PGPASSWORD: ${PGPASSWORD_RECIPE}
+      PGHOST: ${PGHOST_RECIPE}
+      PGPORT: ${PGPORT_RECIPE}
+      PGDATABASE: ${PGDATABASE_RECIPE}
     networks:
       - app-network
     depends_on:
@@ -91,13 +91,16 @@ services:
     container_name: user-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: user
-      POSTGRES_DB: users_db
+      POSTGRES_USER: ${POSTGRES_USER_USERDB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_USERDB}
+      POSTGRES_DB: ${POSTGRES_DB_USERDB}
       PGDATA: /var/lib/postgresql/data
-      PGPORT: 5442
+      PGPORT: 5432
+    ports:
+      - "5442:5432"
     volumes:
       - user-db-data:/var/lib/postgresql/data
+      - ./api-user/db:/docker-entrypoint-initdb.d/
     networks:
       app-network:
         aliases:
@@ -108,13 +111,16 @@ services:
     container_name: recipe-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: recipe
-      POSTGRES_PASSWORD: recipe
-      POSTGRES_DB: recipes_db
+      POSTGRES_USER: ${POSTGRES_USER_RECIPEDB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_RECIPEDB}
+      POSTGRES_DB: ${POSTGRES_DB_RECIPEDB}
       PGDATA: /var/lib/postgresql/data
-      PGPORT: 5443
+      PGPORT: 5432
+    ports:
+      - "5443:5432"
     volumes:
       - recipe-db-data:/var/lib/postgresql/data
+      - ./api-recipe/db:/docker-entrypoint-initdb.d/
     networks:
       app-network:
         aliases:
