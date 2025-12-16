@@ -25,7 +25,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 // Route Swagger
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/user/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // disable etag on api-user as well to avoid 304 responses from this service
 app.disable('etag');
