@@ -11,7 +11,7 @@ interface Route {
         router?: { [key: string]: string };
         changeOrigin: boolean;
         pathFilter?: string;
-        pathRewrite?: { [key: string]: string };
+        pathRewrite?: { [key: string]: string };//
     };
 }
 
@@ -22,6 +22,15 @@ const USER_HOST = process.env.USER_HOST || 'localhost';
 
 
 const ROUTES: Route[] = [
+    // {
+    //     url: '/swagger',
+    //     auth: false,
+    //     creditCheck: false,
+    //     proxy: {
+    //         target: `http://${USER_HOST}:3001`,
+    //         changeOrigin: true,
+    //     }
+    // },
     {
         url: '/user',
         auth: false,
@@ -37,6 +46,15 @@ const ROUTES: Route[] = [
         creditCheck: false,
         proxy: {
             target: `http://${RECIPE_HOST}:3002`,
+            changeOrigin: true,
+        }
+    },
+    {
+        url: '/auth',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: `http://${USER_HOST}:3001`,
             changeOrigin: true,
         }
     },

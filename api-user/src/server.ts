@@ -1,14 +1,14 @@
 import express from "express";
-import userRouter from "./routes/user.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
+import 'dotenv/config';
+import userRouter from "./routes/user.js";
+import authRouter from "./routes/auth.js";
 
 const app = express();
+app.use(express.json());
 const port = process.env.PORT || 3001;
 
-// expose router user sur /user
-app.use('/user', userRouter);
-app.get("/", (req, res) => res.send("Hello from API USER!"));
 
 // Configuration Swagger
 const swaggerOptions = {
@@ -19,13 +19,37 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "Documentation de l'API user"
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        }
+      }
+    },
+    security: [
+      { bearerAuth: [] }
+    ]
   },
-  apis: ["./src/routes/*.ts", "./src/routes/*.js"], // adapte le chemin si besoin
+  apis: ["./src/routes/*.ts", "./src/routes/*.js"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 // Route Swagger
 app.use("/user/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use((req, res, next) => {
+  console.log(`[API-USER] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// expose router user sur /user
+app.use('/user', userRouter);
+app.use("/auth", authRouter);
+app.get("/", (req, res) => res.send("Hello from API USER!"));
+
+
+
 
 // disable etag on api-user as well to avoid 304 responses from this service
 app.disable('etag');

@@ -4,12 +4,12 @@ import { login as loginService } from '../services/auth.js';
 import { refreshToken as refreshTokenService } from '../services/auth.js';
 
 export const register = async (req: Request, res: Response) => {
-    const { email, password } = req.body as { email?: string; password?: string };
+    const { email, password, pseudo } = req.body as { email?: string; password?: string; pseudo?: string };
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password are required' });
+    if (!email || !password || !pseudo) {
+        return res.status(400).json({ error: 'Email, password and pseudo are required' });
     }
-    const createdUser = await createUserService(email, password);
+    const createdUser = await createUserService(email, password, pseudo);
     if (!createdUser) {
         return res.status(400).json({ error: 'Failed to create user' });
     }

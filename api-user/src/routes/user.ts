@@ -8,6 +8,8 @@ const userRouter = Router();
  * @openapi
  * /user/:
  *   get:
+ *     tags:
+ *       - User
  *     summary: Liste tous les utilisateurs
  *     description: Retourne un tableau d'utilisateurs (sans pagination, ni filtre).
  *     security:
@@ -28,6 +30,8 @@ userRouter.get('/', authMiddleware, listUsersController);
  * @openapi
  * /user/{id}:
  *   delete:
+ *     tags:
+ *       - User
  *     summary: Supprime un utilisateur par ID
  *     description: Supprime l'utilisateur correspondant à l'ID fourni. Retourne l'utilisateur supprimé ou une erreur si non trouvé.
  *     security:
@@ -57,6 +61,8 @@ userRouter.delete('/:id', authMiddleware, deleteUserController);
  * @openapi
  * /user/test:
  *   get:
+ *     tags:
+ *       - User
  *     summary: Teste l'API User
  *     description: Retourne une chaîne de caractères pour tester l'API user.
  *     responses:
