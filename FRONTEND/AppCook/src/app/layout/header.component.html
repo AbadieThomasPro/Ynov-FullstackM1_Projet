@@ -1,0 +1,10 @@
+<header class="header"></header>
+  <div class="logo">🍲 AppCook</div>
+  <nav>
+    <a routerLink="/" routerLinkActive="active">Accueil</a>
+    <a routerLink="/recipes" routerLinkActive="active">Recettes</a>
+    <a routerLink="/login" routerLinkActive="active">Connexion</a>
+    <a routerLink="/register" routerLinkActive="active">Inscription</a>
+    <a *ngIf="isLoggedIn" (click)="logout()">Déconnexion</a>
+  </nav>
+</header>
