@@ -8,6 +8,7 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ---
 
+
 ## 📑 Table des matières
 
 - [✨ Fonctionnalités](#-fonctionnalités)
@@ -19,6 +20,10 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
   - [🔐 Gestion utilisateur & expérience](#-gestion-utilisateur--expérience)
 - [🛠️ Stack technique & choix technologiques](#-stack-technique--choix-technologiques)
 - [🏛️ Architecture et répartition des services](#architecture-et-répartition-des-services)
+- [📎 Annexes](#annexes)
+  - [🧾 Création de la table users dans PostgreSQL](#création-de-la-table-users-dans-postgresql)
+  - [📌 Structure de la table dans Adminer](#structure-de-la-table-dans-adminer)
+- [🚀 Lancer l'application](#lancer-lapplication)
 
 ---
 
@@ -77,16 +82,15 @@ J’ai choisi **Angular** pour plusieurs raisons :
 ### 💎 **ORM: Prisma**
 
 - **Ergonomie TypeScript** génération automatique de types pour les modèles et sécurité au moment de la compilation.
-- **Générations** automatiques de types.
-- **Migration intégrées**:facilite la gestion des schémas et des versions de la BDD (Prisma migrate).
+- **Génération automatique de types à partir du schéma de la base** : Prisma garantit une sécurité de type totale et réduit considérablement les risques d’erreurs de mapping. Cette approche, bien plus stricte que celle de la plupart des autres ORMs (comme Sequelize ou TypeORM), permet de bénéficier d’une autocomplétion fiable et d’un refactoring sécurisé dans tout le projet.
+- **Migration intégrées**: facilite la gestion des schémas et des versions de la BDD (Prisma migrate).
 - **Productivité**: requêtes lisibles, bonnes performances pour les usages CRUD et jointures typiques (recipes ↔ ingredients).
 
 ### 🐘 **Base de données : PostgreSQL**
 
 - Base **relationnelle robuste**, adaptée aux entités interdépendantes (recettes, ingrédients, utilisateurs).
 - Support des **transactions**, important pour garantir la cohérence lors de mises à jour multiples.
-- Très bonnes **performances** sur les requêtes de filtrage et matching d’ingrédients.
-- Support de **types avancés** (JSONB, arrays) pour les données semi-structurées.
+- Très bonnes **performances** sur les requêtes de filtrage et matching d’ingrédients, grâce au support natif des **types avancés** (JSONB, arrays) et de la **recherche full-text**. Cela permet d’implémenter des filtres puissants et des recherches complexes sur les recettes, là où d’autres bases comme MySQL ou SQLite sont plus limitées.
 
 ### 🔐 **Authentification : JWT**
 
@@ -96,13 +100,11 @@ J’ai choisi **Angular** pour plusieurs raisons :
 
 ### 📁 **Gestion des médias : Multer + stockage local ou cloud**
 
-- **Multer** permet de gérer facilement l’upload et la validation des fichiers.
-- Stockage flexible : en local pour le développement, ou sur un cloud (S3, Cloudinary…) en production.
+- **Upload de fichiers flexible** : Multer s’intègre parfaitement à Express pour gérer l’upload et la validation des fichiers, avec une flexibilité de stockage (local ou cloud) immédiate, là où d’autres solutions nécessitent souvent plus de configuration ou des services externes.
 
 ### 📝 **Logs : morgan**
 
-- Middleware simple pour **logger toutes les requêtes HTTP**.
-- Très utile pour analyser les comportements, déboguer et surveiller la performance de l’API.
+- Middleware simple pour **logger toutes les requêtes HTTP** de façon simple, lisible et personnalisable, facilitant le debug et la surveillance sans surcharger l’application, contrairement à des solutions plus lourdes comme Winston ou Bunyan pour ce type de besoin.
 
 ---
 
@@ -241,6 +243,39 @@ Ces éléments prouvent que la table est correctement enregistrée dans la base 
 
 ### Lancer l'application
 
-docker network create app-network
 
+
+1. **Cloner le dépôt**
+
+
+```bash
+git clone https://github.com/AbadieThomasPro/Ynov-FullstackM1_Projet.git
+cd Ynov-FullstackM1_Projet
+```
+
+
+
+2. **Configurer l’environnement**
+
+
+- Vérifie que [Docker](https://www.docker.com/products/docker-desktop/) et [Docker Compose](https://docs.docker.com/compose/) sont installés sur ta machine.
+
+- Crée un fichier `.env` à la racine du projet. Ce fichier doit contenir toutes les variables d’environnement utilisées dans le `docker-compose.yml` (exemple : mots de passe, ports, secrets, etc.).
+
+
+
+3. **Lancer l'application avec Docker** 
+
+
+Crée le network Docker (si ce n'est pas déjà fait):
+```bash
+docker network create app-network
+```
+
+Puis lance tous les services :
+```bash
 docker-compose up --build
+```
+
+L’application sera accessible à l’adresse : [http://localhost:4200](http://localhost:4200) (ou sur le port configuré dans le `docker-compose.yml` pour le frontend).  
+Les API backend seront disponibles sur les ports définis dans le même fichier.
