@@ -1,31 +1,20 @@
 <div class="register-container">
   <h2>Créer un compte</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="submit()">
-    <label>
-      Nom d'utilisateur
-      <input formControlName="username" type="text" placeholder="Votre pseudo" />
-    </label>
-    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error">
-      Le nom d'utilisateur doit faire au moins 3 caractères.
+  
+  <app-form
+    [fields]="registerFields()"
+    [submitLabel]="'Créer mon compte'"
+    [loading]="loading()"
+    (formSubmit)="onRegister($event)"
+  />
+  
+  @if (error()) {
+    <div class="error-banner">
+      {{ error() }}
     </div>
-
-    <label>
-      Email
-      <input formControlName="email" type="email" placeholder="Votre email" />
-    </label>
-    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
-      Email invalide.
-    </div>
-
-    <label>
-      Mot de passe
-      <input formControlName="password" type="password" placeholder="Mot de passe" />
-    </label>
-    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
-      Le mot de passe doit faire au moins 6 caractères.
-    </div>
-
-    <button type="submit" [disabled]="registerForm.invalid || loading">Créer un compte</button>
-    <div *ngIf="error" class="error">{{ error }}</div>
-  </form>
+  }
+  
+  <div class="login-link">
+    Déjà un compte ? <a routerLink="/login">Se connecter</a>
+  </div>
 </div>
