@@ -72,6 +72,10 @@ export class UserState {
         });
         // Store token in localStorage
         localStorage.setItem('accessToken', res.accessToken);
+        // if backend returned userid, fetch full user profile
+        if ((res as any).userid) {
+          ctx.dispatch(new GetUserById((res as any).userid));
+        }
       }),
       catchError(err => {
         console.error('[NGXS] Login error:', err);
@@ -92,6 +96,9 @@ export class UserState {
         });
         // Store token in localStorage
         localStorage.setItem('accessToken', res.accessToken);
+        if ((res as any).userid) {
+          ctx.dispatch(new GetUserById((res as any).userid));
+        }
       }),
       catchError(err => {
         console.error('[NGXS] Register error:', err);

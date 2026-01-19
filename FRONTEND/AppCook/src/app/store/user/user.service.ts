@@ -10,12 +10,12 @@ export interface User {
   avatarurl?: string | null;
   bio?: string | null;
   role?: string | null;
-  // Le password n'est jamais retourné par l'API pour des raisons de sécurité
 }
 
 export interface AuthResponse {
   accessToken: string;
   email: string;
+  userid?: string;
 }
 
 @Injectable({

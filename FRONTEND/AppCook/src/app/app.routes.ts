@@ -14,6 +14,10 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
     },
+    {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage)
+    },
 
     //n'import quel route inconu redirige vers home
     {

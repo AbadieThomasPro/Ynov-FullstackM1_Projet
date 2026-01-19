@@ -20,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
     }
     const result = await loginService(email, password);
     if (!result) return res.status(500).json({ error: 'Failed to login after register' });
-    return res.status(201).json({ accessToken: result.accessToken, email: result.user.email });
+    return res.status(201).json({ accessToken: result.accessToken, email: result.user.email, userid: result.user.userid });
 };
 
 export const refreshToken = async (req: Request, res: Response) => {
@@ -30,7 +30,7 @@ export const refreshToken = async (req: Request, res: Response) => {
     }
     const result = await refreshTokenService(refreshToken);
     if (!result) return res.status(401).json({ error: 'Invalid refresh token' });
-    return res.status(200).json({ accessToken: result.accessToken, email: result.user.email });
+    return res.status(200).json({ accessToken: result.accessToken, email: result.user.email, userid: result.user.userid });
 };
 
 export const login = async (req: Request, res: Response) => {

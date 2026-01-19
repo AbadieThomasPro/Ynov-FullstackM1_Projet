@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { listUsersService, deleteUserService, testApiUserService } from '../services/user.js';
+import { listUsersService, deleteUserService, testApiUserService, getUserByIdService } from '../services/user.js';
 
 const listUsersController = async (req: Request, res: Response) => {
     const users = await listUsersService();
@@ -18,4 +18,12 @@ const testApiUserController = async (req: Request, res: Response) => {
     return res.status(200).json(result);
 }
 
-export { listUsersController, deleteUserController, testApiUserController };
+const getUserByIdController = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ error: 'id param is required' });
+    const user = await getUserByIdService(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    return res.status(200).json(user);
+}
+
+export { listUsersController, deleteUserController, testApiUserController, getUserByIdController };
