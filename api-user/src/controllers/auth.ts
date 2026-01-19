@@ -18,7 +18,6 @@ export const register = async (req: Request, res: Response) => {
         console.log("[REGISTER] Échec création user");
         return res.status(400).json({ error: 'Failed to create user' });
     }
-    console.log("[REGISTER] Appel loginService");
     const result = await loginService(email, password);
     if (!result) return res.status(500).json({ error: 'Failed to login after register' });
     return res.status(201).json({ accessToken: result.accessToken, email: result.user.email });
