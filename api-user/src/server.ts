@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.js";
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3001;
+console.log("[SERVER] Démarrage de l'API User...");
 
 
 // Configuration Swagger

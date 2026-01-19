@@ -7,7 +7,7 @@ const pool = new Pool({
     host: process.env.PGHOST_USER,
     database: process.env.PGDATABASE_USER,
     password: process.env.PGPASSWORD_USER,
-    port: 5432,
+    port: Number(process.env.PGPORT_USER) || 5442,
 });
 console.log("Connexion pool PG créée");
 

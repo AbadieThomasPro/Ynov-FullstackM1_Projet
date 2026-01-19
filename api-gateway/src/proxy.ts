@@ -4,10 +4,20 @@ import type { Route } from './routes.js';
 
 const setupProxies = (app: Application, routes: Route[]) => {
     routes.forEach(route => {
+        console.log(`[PROXY SETUP] Mounting proxy for ${route.url} -> ${route.proxy.target}`);
         const options = {
             ...route.proxy,
             // target: `${route.proxy.target}${route.url}`,
             target: route.proxy.target,
+            timeout: 30000, // 30 secondes
+            proxyTimeout: 30000,
+            changeOrigin: true,
+            logLevel: 'debug',
+            onError: (err: any, req: any, res: any) => {
+                console.error(`[PROXY ERROR] ${err.message}`, err);
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Proxy error: ' + err.message);
+            },
             pathRewrite: (path: string, req: any) => {
                 // Express retire déjà le préfixe (ex: /user), on doit le rajouter
                 // path reçu = /swagger (Express a enlevé /user)

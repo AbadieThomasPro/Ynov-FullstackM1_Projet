@@ -4,15 +4,21 @@ import { login as loginService } from '../services/auth.js';
 import { refreshToken as refreshTokenService } from '../services/auth.js';
 
 export const register = async (req: Request, res: Response) => {
+    console.log("[REGISTER] Requête reçue:", req.body);
     const { email, password, pseudo } = req.body as { email?: string; password?: string; pseudo?: string };
 
     if (!email || !password || !pseudo) {
+        console.log("[REGISTER] Données manquantes");
         return res.status(400).json({ error: 'Email, password and pseudo are required' });
     }
+    console.log("[REGISTER] Appel createUserService");
     const createdUser = await createUserService(email, password, pseudo);
+    console.log("[REGISTER] Résultat createUserService:", createdUser);
     if (!createdUser) {
+        console.log("[REGISTER] Échec création user");
         return res.status(400).json({ error: 'Failed to create user' });
     }
+    console.log("[REGISTER] Appel loginService");
     const result = await loginService(email, password);
     if (!result) return res.status(500).json({ error: 'Failed to login after register' });
     return res.status(201).json({ accessToken: result.accessToken, email: result.user.email });

@@ -25,11 +25,11 @@ export interface UserStateModel {
 @State<UserStateModel>({
   name: 'user',
   defaults: {
-    accessToken: null,
+    accessToken: localStorage.getItem('accessToken'),
     currentUser: null,
     users: [],
     selectedUser: null,
-    isAuthenticated: false
+    isAuthenticated: !!localStorage.getItem('accessToken')
   }
 })
 @Injectable()

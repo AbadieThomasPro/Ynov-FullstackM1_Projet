@@ -8,7 +8,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // parse JSON bodies
-app.use(express.json());
+// app.use(express.json());
+// NOTE: On ne parse PAS le JSON ici car le gateway doit juste proxifier
+// Les microservices en backend parseront eux-mêmes le body
+// app.use(express.json()); // COMMENTÉ - cause "request aborted" avec le proxy
 
 // enable CORS for the frontend dev server
 app.use(cors({ origin: 'http://localhost:4200', credentials: true }));

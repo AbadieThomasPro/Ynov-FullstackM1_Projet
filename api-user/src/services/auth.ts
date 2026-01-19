@@ -18,8 +18,8 @@ export const login = async (email: string, password: string) => {
         return null;
     }
 
-    const accessToken = generateAccessToken({ id: user.userId, email: user.email });
-    const refreshToken = generateRefreshToken({ id: user.userId, email: user.email });
+    const accessToken = generateAccessToken({ id: user.userid, email: user.email });
+    const refreshToken = generateRefreshToken({ id: user.userid, email: user.email });
     return { accessToken, refreshToken, user };
 };
 
@@ -32,6 +32,6 @@ export const refreshToken = async (token: string) => {
     if (!user) {
         return null;
     }
-    const newAccessToken = generateAccessToken({ id: user.userId, email: user.email });
+    const newAccessToken = generateAccessToken({ id: user.userid, email: user.email });
     return { accessToken: newAccessToken, user };
 };

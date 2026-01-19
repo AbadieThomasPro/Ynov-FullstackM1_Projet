@@ -32,7 +32,6 @@ services:
       - "3001"
     restart: unless-stopped
     environment:
-      environment:
       PGUSER: ${PGUSER_USER}
       PGPASSWORD: ${PGPASSWORD_USER}
       PGHOST: ${PGHOST_USER}
@@ -52,7 +51,6 @@ services:
       - "3002"
     restart: unless-stopped
     environment:
-      environment:
       PGUSER: ${PGUSER_RECIPE}
       PGPASSWORD: ${PGPASSWORD_RECIPE}
       PGHOST: ${PGHOST_RECIPE}
