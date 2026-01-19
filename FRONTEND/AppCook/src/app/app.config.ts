@@ -3,10 +3,12 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { provideHttpClient } from '@angular/common/http';
+import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngxs/store';
 import { TestState } from './store/test/test.state';
+import { UserState } from './store/user/user.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,13 +17,14 @@ export const appConfig: ApplicationConfig = {
     provideStore(
       [
         TestState,
+        UserState,
       ],
     ),
     provideHttpClient(),
     provideAnimationsAsync(),
     providePrimeNG({
         theme: {
-            preset: 'Aura'
+            preset: Aura
         }
     })
   ]
