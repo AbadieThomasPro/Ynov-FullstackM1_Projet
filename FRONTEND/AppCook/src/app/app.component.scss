@@ -1,0 +1,11 @@
+
+/* Make footer stick to bottom even if page is empty */
+:host {
+	display: flex;
+	flex-direction: column;
+	min-height: 100dvh;
+}
+
+main {
+	flex: 1 0 auto;
+}

@@ -49,15 +49,15 @@ const ROUTES: Route[] = [
             changeOrigin: true,
         }
     },
-    {
-        url: '/auth',
-        auth: false,
-        creditCheck: false,
-        proxy: {
-            target: `http://${USER_HOST}:3001`,
-            changeOrigin: true,
-        }
-    },
+    // {
+    //     url: '/auth',
+    //     auth: false,
+    //     creditCheck: false,
+    //     proxy: {
+    //         target: `http://${USER_HOST}:3001`,
+    //         changeOrigin: true,
+    //     }
+    // },
 ];
 
 export { ROUTES };

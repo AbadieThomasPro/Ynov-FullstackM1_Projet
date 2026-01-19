@@ -43,9 +43,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// expose router user sur /user
+// expose router user sur /user et auth sur /user/auth
 app.use('/user', userRouter);
-app.use("/auth", authRouter);
+app.use("/user/auth", authRouter);
 app.get("/", (req, res) => res.send("Hello from API USER!"));
 
 

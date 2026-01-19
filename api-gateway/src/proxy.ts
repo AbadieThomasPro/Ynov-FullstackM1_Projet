@@ -6,7 +6,23 @@ const setupProxies = (app: Application, routes: Route[]) => {
     routes.forEach(route => {
         const options = {
             ...route.proxy,
-            target: `${route.proxy.target}${route.url}`,
+            // target: `${route.proxy.target}${route.url}`,
+            target: route.proxy.target,
+            pathRewrite: (path: string, req: any) => {
+                // Express retire déjà le préfixe (ex: /user), on doit le rajouter
+                // path reçu = /swagger (Express a enlevé /user)
+                // path reçu = /auth/register (Express a enlevé /user)
+                // on retourne /user/auth/register pour le backend
+                const newPath = `${route.url}${path}`;
+                console.log(`[PROXY] ${route.url} : ${path} -> ${newPath} (target: ${route.proxy.target})`);
+                return newPath;
+            },
+            onProxyReq: (proxyReq: any, req: any, res: any) => {
+                console.log(`[PROXY REQ] ${req.method} ${req.url} -> ${route.proxy.target}${proxyReq.path}`);
+            },
+            //     // on retourne /user/swagger pour le backend
+            //     return `${route.url}${path}`;
+            // },
             // target: route.proxy.target,
             // pathRewrite: (path: any, req: any) => {
             //     // Ne réécrit pas /user/swagger (ni /user/swagger/), laisse tel quel
