@@ -8,7 +8,9 @@
 
     <div *ngIf="isAuthenticated$ | async" class="profile-menu">
       <p-menu #menu [model]="profileItems" [popup]="true"></p-menu>
-      <button pButton type="button" icon="pi pi-user" class="p-button-rounded profile-btn" (click)="menu.toggle($event)"></button> <!--pButtonText-->
+      <button pButton type="button" class="p-button-rounded profile-btn" (click)="menu.toggle($event)">
+        <i class="pi pi-user"></i>
+      </button>
     </div>
   </nav>
 </header>
