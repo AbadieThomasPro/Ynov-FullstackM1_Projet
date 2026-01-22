@@ -1,4 +1,4 @@
-<div class="ingredient-picker">
+<div class="ingredient-picker" [formGroup]="form">
   <div class="search-row">
     <input pInputText placeholder="Rechercher un ingrédient" formControlName="q" />
     <button pButton type="button" icon="pi pi-search" (click)="onSearch()"></button>

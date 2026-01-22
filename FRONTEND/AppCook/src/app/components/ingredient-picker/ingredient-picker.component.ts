@@ -53,6 +53,7 @@ export class IngredientPickerComponent {
     const q = this.form.get('q')!.value;
     if (!q || q.length < 2) return;
     this.loading.set(true);
+    console.debug('IngredientPicker onSearch ->', q);
     this.ingredientService.search(q).subscribe({
       next: (res) => { this.results.set(res || []); this.loading.set(false); },
       error: () => { this.results.set([]); this.loading.set(false); }
