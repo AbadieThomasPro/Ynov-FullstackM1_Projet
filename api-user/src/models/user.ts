@@ -6,7 +6,7 @@ const createUser = async (email: string, password: string, pseudo: string) => {
         const result = await db.query(
             `INSERT INTO users (email, password, pseudo)
              VALUES ($1, $2, $3)
-             RETURNING userid, email, password, pseudo`,
+             RETURNING userid, email, pseudo`,
             [email, password, pseudo]
         );
         console.log("Résultat création user:", result.rows[0]);
@@ -19,7 +19,7 @@ const createUser = async (email: string, password: string, pseudo: string) => {
 
 const getUserByEmail = async (email: string) => {
     const result = await db.query(
-        `SELECT userid, email, password FROM users WHERE email = $1`,
+    `SELECT userid, email, password, pseudo, avatarurl, bio, role FROM users WHERE email = $1`,
         [email]
     );
     return result.rows[0];
@@ -27,7 +27,7 @@ const getUserByEmail = async (email: string) => {
 
 const getUserById = async (id: string) => {
     const result = await db.query(
-        `SELECT userid, email, password FROM users WHERE userid = $1`,
+    `SELECT userid, email, pseudo, avatarurl, bio, role FROM users WHERE userid = $1`,
         [id]
     );
     return result.rows[0];
@@ -35,7 +35,7 @@ const getUserById = async (id: string) => {
 
 const listUsers = async () => {
     const result = await db.query(
-        `SELECT userid, email FROM users`,
+    `SELECT userid, email, pseudo, avatarurl FROM users`,
     );
     return result.rows;
 }

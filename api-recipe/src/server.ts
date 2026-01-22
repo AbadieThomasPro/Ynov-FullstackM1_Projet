@@ -2,9 +2,10 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import recipeRouter from "./routes/recipe.js";
-
+import ingredientRouter from "./routes/ingredient.js";
 
 const app = express();
+app.use(express.json());
 const port = process.env.PORT || 3002;
 
 // Configuration Swagger
@@ -25,6 +26,7 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use("/recipe/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/recipe", recipeRouter);
+app.use('/recipe/ingredients', ingredientRouter);
 
 app.get("/", (req, res) => res.send("Hello from API RECIPE!"));
 app.listen(port, () => console.log(`Server running on port ${port}`));

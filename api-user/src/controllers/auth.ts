@@ -53,5 +53,5 @@ export const login = async (req: Request, res: Response) => {
         });
     }
 
-    return res.status(200).json({ accessToken: result.accessToken, email: result.user.email });
+    return res.status(200).json({ accessToken: result.accessToken, email: result.user.email, userid: result.user.userid });
 };

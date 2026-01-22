@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngxs/store';
 import { UserState } from '../../store/user/user.state';
 import { Observable } from 'rxjs';
-import { GetUserById } from '../../store/user/user.actions';
+import { GetUserById, Login } from '../../store/user/user.actions';
 
 @Component({
   selector: 'app-profile',

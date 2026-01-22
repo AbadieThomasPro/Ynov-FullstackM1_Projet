@@ -72,6 +72,13 @@ export class UserState {
         });
         // Store token in localStorage
         localStorage.setItem('accessToken', res.accessToken);
+        // Store userid if returned by backend
+        if ((res as any).userid) {
+          localStorage.setItem('userid', (res as any).userid);
+          // also patch currentUser.userid minimally so other parts can read it
+          const state = ctx.getState();
+          ctx.patchState({ currentUser: { ...(state.currentUser || {}), userid: (res as any).userid } as any });
+        }
         // if backend returned userid, fetch full user profile
         if ((res as any).userid) {
           ctx.dispatch(new GetUserById((res as any).userid));
@@ -96,7 +103,11 @@ export class UserState {
         });
         // Store token in localStorage
         localStorage.setItem('accessToken', res.accessToken);
+        // Store userid if returned by backend
         if ((res as any).userid) {
+          localStorage.setItem('userid', (res as any).userid);
+          const state = ctx.getState();
+          ctx.patchState({ currentUser: { ...(state.currentUser || {}), userid: (res as any).userid } as any });
           ctx.dispatch(new GetUserById((res as any).userid));
         }
       }),
@@ -116,6 +127,7 @@ export class UserState {
       isAuthenticated: false 
     });
     localStorage.removeItem('accessToken');
+  localStorage.removeItem('userid');
   }
 
   @Action(GetCurrentUser)
