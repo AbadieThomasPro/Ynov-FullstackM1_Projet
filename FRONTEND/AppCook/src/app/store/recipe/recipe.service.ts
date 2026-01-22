@@ -7,6 +7,7 @@ export interface Recipe {
   recipeid: string;
   name: string;
   userid: string;
+  avatarurl?: string | null;
   description?: string | null;
   servings?: number | null;
   createdat?: string;

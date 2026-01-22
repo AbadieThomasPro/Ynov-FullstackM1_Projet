@@ -9,4 +9,6 @@ const pool = new Pool({
   port: Number(process.env.PGPORT || process.env.PGPORT_RECIPE) || 5432,
 });
 
+console.log("Connexion pool PG créée (api-recipe)");
+
 export default pool;

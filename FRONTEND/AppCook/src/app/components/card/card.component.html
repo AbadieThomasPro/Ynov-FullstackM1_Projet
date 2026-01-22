@@ -1,0 +1,14 @@
+<div class="recipe-card p-card" (click)="onClick()">
+  <ng-container *ngIf="recipe">
+    <div class="image" *ngIf="recipe.avatarurl; else noImage">
+      <img [src]="recipe.avatarurl" alt="{{ recipe.name }}" />
+    </div>
+    <ng-template #noImage>
+      <div class="image placeholder">No image</div>
+    </ng-template>
+
+    <div class="content">
+      <h3>{{ recipe.name }}</h3>
+    </div>
+  </ng-container>
+</div>

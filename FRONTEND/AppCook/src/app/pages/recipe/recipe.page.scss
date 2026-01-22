@@ -1,0 +1,6 @@
+.recipe-page { padding: 1rem; }
+.header { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+.add-btn { margin-left:auto; }
+.grid { display:flex; flex-wrap:wrap; gap:1rem; }
+.card-list { display:flex; gap:1rem; flex-wrap:wrap; }
+app-recipe-card { flex: 0 0 300px; }

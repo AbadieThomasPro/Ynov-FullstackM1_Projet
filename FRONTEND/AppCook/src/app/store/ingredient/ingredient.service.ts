@@ -6,6 +6,7 @@ import { environment } from '../../environment/environment.dev';
 export interface Ingredient {
   ingredientid: string;
   name: string;
+  avatarurl?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,15 +23,7 @@ export class IngredientService {
     return this.http.get<Ingredient>(`${this.urlBase}/recipe/ingredients/${id}`);
   }
 
-  create(data: Partial<Ingredient>): Observable<Ingredient> {
-    return this.http.post<Ingredient>(`${this.urlBase}/recipe/ingredients`, data);
-  }
-
-  update(id: string, data: Partial<Ingredient>): Observable<Ingredient> {
-    return this.http.put<Ingredient>(`${this.urlBase}/recipe/ingredients/${id}`, data);
-  }
-
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.urlBase}/recipe/ingredients/${id}`);
+  search(q: string): Observable<Ingredient[]> {
+    return this.http.get<Ingredient[]>(`${this.urlBase}/recipe/ingredients/search?q=${encodeURIComponent(q)}`);
   }
 }

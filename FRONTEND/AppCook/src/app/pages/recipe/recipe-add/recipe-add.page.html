@@ -1,0 +1,42 @@
+<div class="recipe-add">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label>Nom</label>
+      <input pInputText formControlName="name" />
+    </div>
+
+    <div class="field">
+      <label>Description</label>
+      <textarea pInputTextarea formControlName="description"></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field"><label>Portions</label><input pInputText type="number" formControlName="servings" /></div>
+      <div class="field"><label>Préparation (min)</label><input pInputText type="number" formControlName="prepTime" /></div>
+      <div class="field"><label>Cuisson (min)</label><input pInputText type="number" formControlName="cookTime" /></div>
+      <div class="field"><label>Difficulté</label>
+        <select formControlName="difficulty">
+          <option *ngFor="let d of (1 | number)" [value]="d">{{ d }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ingrédients</label>
+      <app-ingredient-picker (add)="onAddIngredient($event)"></app-ingredient-picker>
+      <ul>
+        <li *ngFor="let it of ingredients()">
+          {{ it.ingredient?.name || it.ingredient?.ingredientname || 'Ingrédient non trouvé' }} - {{ it.amount }} {{ it.unit }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="field">
+      <label>Total time: {{ totalTime }} min</label>
+    </div>
+
+    <div class="actions">
+      <button pButton label="Enregistrer" type="submit" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>

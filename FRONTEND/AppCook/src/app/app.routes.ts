@@ -18,6 +18,14 @@ export const routes: Routes = [
         path: 'profile',
         loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage)
     },
+    {
+        path: 'recipes',
+        loadComponent: () => import('./pages/recipe/recipe.page').then(m => m.RecipePage)
+    },
+    {
+        path: 'recipes/add',
+        loadComponent: () => import('./pages/recipe/recipe-add/recipe-add.page').then(m => m.RecipeAddPage)
+    },
 
     //n'import quel route inconu redirige vers home
     {

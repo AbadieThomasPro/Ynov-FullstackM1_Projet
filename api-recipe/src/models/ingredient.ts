@@ -26,3 +26,12 @@ export const getIngredientByIdQuery = async (id: string) => {
   );
   return result.rows[0] as Ingredient | undefined;
 };
+
+export const searchIngredientsQuery = async (q: string) => {
+  const term = `%${q}%`;
+  const result = await pool.query(
+    `SELECT ingredientid, ingredientname, ingredientcategoryid, costestimate, origin, isvegan, isvegetarian, isallergen, storageadvice, description FROM ingredients WHERE ingredientname ILIKE $1 LIMIT 50`,
+    [term]
+  );
+  return result.rows as Ingredient[];
+};

@@ -29,4 +29,12 @@ app.use("/recipe", recipeRouter);
 app.use('/recipe/ingredients', ingredientRouter);
 
 app.get("/", (req, res) => res.send("Hello from API RECIPE!"));
+
+// Generic error handler to return JSON instead of HTML
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('Unhandled error', err);
+  const status = err?.status || 500;
+  res.status(status).json({ error: err?.message || 'Internal Server Error' });
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
