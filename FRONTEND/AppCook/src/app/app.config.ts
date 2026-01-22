@@ -9,6 +9,8 @@ import { routes } from './app.routes';
 import { provideStore } from '@ngxs/store';
 import { TestState } from './store/test/test.state';
 import { UserState } from './store/user/user.state';
+import { RecipeState } from './store/recipe/recipe.state';
+import { IngredientState } from './store/ingredient/ingredient.state';
 import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -19,6 +21,8 @@ export const appConfig: ApplicationConfig = {
       [
         TestState,
         UserState,
+        RecipeState,
+        IngredientState,
       ],
     ),
     provideHttpClient(withInterceptors([authInterceptor])),
