@@ -1,23 +1,43 @@
 <div class="ingredient-picker" [formGroup]="form">
   <div class="search-row">
-    <input pInputText placeholder="Rechercher un ingrédient" formControlName="q" />
-    <button pButton type="button" icon="pi pi-search" (click)="onSearch()"></button>
+    <input 
+      pInputText 
+      placeholder="Rechercher un ingrédient..." 
+      formControlName="q"
+      [disabled]="loading()" />
+    <button 
+      pButton 
+      type="button" 
+      icon="pi pi-search" 
+      [loading]="loading()"
+      (click)="onSearch()"></button>
   </div>
 
-  <div class="results" *ngIf="results().length">
-    <ul>
-      <li *ngFor="let r of results()" (click)="selectIngredient(r)">
-        <img *ngIf="r['avatarurl']" [src]="r['avatarurl']" alt="{{ r.name }}" />
-        {{ r.name }}
-      </li>
-    </ul>
+  <div class="results" *ngIf="results().length > 0">
+    <div class="grid">
+      <app-card 
+        *ngFor="let r of results()" 
+        [ingredient]="r" 
+        (select)="selectIngredient($event)">
+      </app-card>
+    </div>
   </div>
 
   <div class="controls">
-    <input pInputText type="number" formControlName="amount" />
+    <input 
+      pInputText 
+      type="number" 
+      formControlName="amount"
+      placeholder="Quantité"
+      min="0" />
     <select formControlName="unit">
       <option *ngFor="let u of units" [value]="u">{{ u }}</option>
     </select>
-    <button pButton type="button" label="Ajouter" (click)="confirmAdd()"></button>
+    <button 
+      pButton 
+      type="button" 
+      label="Ajouter" 
+      icon="pi pi-plus"
+      (click)="confirmAdd()"></button>
   </div>
 </div>

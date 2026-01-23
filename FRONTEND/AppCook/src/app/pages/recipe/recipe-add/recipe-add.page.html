@@ -1,34 +1,75 @@
 <div class="recipe-add">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="field">
-      <label>Nom</label>
+      <h5>Nom</h5>
       <input pInputText formControlName="name" />
     </div>
 
     <div class="field">
-      <label>Description</label>
+      <h5>Description</h5>
       <textarea pInputTextarea formControlName="description"></textarea>
     </div>
 
     <div class="field-row">
-      <div class="field"><label>Portions</label><input pInputText type="number" formControlName="servings" /></div>
-      <div class="field"><label>Préparation (min)</label><input pInputText type="number" formControlName="prepTime" /></div>
-      <div class="field"><label>Cuisson (min)</label><input pInputText type="number" formControlName="cookTime" /></div>
-      <div class="field"><label>Difficulté</label>
-        <select formControlName="difficulty">
-          <option *ngFor="let d of (1 | number)" [value]="d">{{ d }}</option>
+      <div class="field"><h5>Portions</h5><input pInputText type="number" formControlName="servings" /></div>
+      <div class="field"><h5>Préparation (min)</h5><input pInputText type="number" formControlName="prepTime" /></div>
+      <div class="field"><h5>Cuisson (min)</h5><input pInputText type="number" formControlName="cookTime" /></div>
+      <div class="field"><h5>Difficulté</h5>
+        <select formControlName="difficulty" class="difficulty">
+          <option *ngFor="let d of difficulties" [value]="d">{{ d }}</option>
         </select>
       </div>
     </div>
 
     <div class="field">
-      <label>Ingrédients</label>
+      <h5>Ingrédients</h5>
       <app-ingredient-picker (add)="onAddIngredient($event)"></app-ingredient-picker>
-      <ul>
-        <li *ngFor="let it of ingredients()">
-          {{ it.ingredient?.name || it.ingredient?.ingredientname || 'Ingrédient non trouvé' }} - {{ it.amount }} {{ it.unit }}
-        </li>
-      </ul>
+      <div class="ingredients-list" *ngIf="ingredients().length > 0">
+        <div class="ingredients-grid">
+          <app-card 
+            *ngFor="let item of ingredients(); let i = index"
+            [ingredient]="item.ingredient"
+            [quantity]="item.quantity + ' ' + item.unity"
+            [showDelete]="true"
+            (delete)="removeIngredient(i)">
+          </app-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <h5>Étapes</h5>
+      <div class="steps-container">
+        <p-card *ngFor="let step of steps(); let i = index" class="step-card">
+          <div class="step-header">
+            <span class="step-number">Étape {{ i + 1 }}:</span>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-times" 
+              class="p-button-rounded p-button-danger p-button-text delete-step-btn"
+              (click)="removeStep(i)">
+            </button>
+          </div>
+          <textarea 
+            pInputTextarea 
+            [(ngModel)]="step.text"
+            [ngModelOptions]="{standalone: true}"
+            rows="3"
+            placeholder="Décrivez cette étape..."></textarea>
+        </p-card>
+        
+        <div class="add-step-btn-container">
+          <button 
+            pButton 
+            type="button" 
+            icon="pi pi-plus" 
+            label="Ajouter une étape"
+            class="p-button-outlined"
+            (click)="addStep()">
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="field">

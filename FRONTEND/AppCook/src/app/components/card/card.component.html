@@ -1,14 +1,22 @@
 <div class="recipe-card p-card" (click)="onClick()">
-  <ng-container *ngIf="recipe">
-    <div class="image" *ngIf="recipe.avatarurl; else noImage">
-      <img [src]="recipe.avatarurl" alt="{{ recipe.name }}" />
-    </div>
-    <ng-template #noImage>
-      <div class="image placeholder">No image</div>
-    </ng-template>
+  <button 
+    *ngIf="showDelete" 
+    pButton 
+    type="button" 
+    icon="pi pi-times" 
+    class="p-button-rounded p-button-danger p-button-text delete-btn"
+    (click)="onDelete($event)">
+  </button>
+  
+  <div class="image" *ngIf="imageUrl; else noImage">
+    <img [src]="imageUrl" [alt]="title" />
+  </div>
+  <ng-template #noImage>
+    <div class="image placeholder">{{ ingredient ? '🥬' : 'No image' }}</div>
+  </ng-template>
 
-    <div class="content">
-      <h3>{{ recipe.name }}</h3>
-    </div>
-  </ng-container>
+  <div class="content">
+    <h3>{{ title }}</h3>
+    <p *ngIf="quantity" class="quantity">{{ quantity }}</p>
+  </div>
 </div>

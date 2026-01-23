@@ -5,11 +5,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { IngredientService, Ingredient } from '../../store/ingredient/ingredient.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-ingredient-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextModule, ButtonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextModule, ButtonModule, CardComponent],
   templateUrl: './ingredient-picker.component.html',
   styleUrls: ['./ingredient-picker.component.scss']
 })

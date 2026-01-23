@@ -1,6 +1,79 @@
-:host { display: block; }
-.recipe-card { cursor: pointer; width: 100%; max-width: 320px; }
-.image { height: 160px; overflow: hidden; display:flex; align-items:center; justify-content:center; }
-.image img { width:100%; height:100%; object-fit:cover; }
-.image.placeholder { background: #f0f0f0; color: #777; display:flex; align-items:center; justify-content:center; height:160px; }
-.content { padding: 0.5rem; }
+:host {
+  display: block;
+}
+
+.recipe-card {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-card, #fff);
+  border: 1px solid var(--surface-border, #e5e7eb);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color, #3b82f6);
+  }
+  
+  &:active {
+    transform: translateY(-2px);
+  }
+}
+
+.delete-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  width: 2rem;
+  height: 2rem;
+}
+
+.image {
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-100, #f3f4f6);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  &.placeholder {
+    color: var(--text-color-secondary, #6b7280);
+    font-size: 2rem;
+    font-weight: 500;
+  }
+}
+
+.content {
+  padding: 0.75rem;
+  
+  h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color, #1f2937);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .quantity {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--text-color-secondary, #6b7280);
+    font-weight: 500;
+  }
+}
