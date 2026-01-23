@@ -95,6 +95,40 @@
     resize: vertical;
   }
 
+  .step-image-upload {
+    margin-top: 1rem;
+  }
+
+  .step-image-preview {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+
+    img {
+      max-width: 300px;
+      max-height: 200px;
+      border-radius: 8px;
+      border: 1px solid var(--surface-border, #e5e7eb);
+      display: block;
+    }
+
+    .delete-image-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .image-name {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-color-secondary, #6b7280);
+      font-style: italic;
+    }
+  }
+
   .add-step-btn-container {
     display: flex;
     justify-content: center;

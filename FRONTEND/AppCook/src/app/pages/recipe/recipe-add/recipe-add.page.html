@@ -51,12 +51,39 @@
               (click)="removeStep(i)">
             </button>
           </div>
+          
           <textarea 
             pInputTextarea 
             [(ngModel)]="step.text"
             [ngModelOptions]="{standalone: true}"
             rows="3"
             placeholder="Décrivez cette étape..."></textarea>
+          
+          <div class="step-image-upload">
+            <p-fileUpload 
+              *ngIf="!getStepImage(step.step)"
+              mode="basic" 
+              chooseLabel="Ajouter une image"
+              chooseIcon="pi pi-image"
+              [auto]="true"
+              accept="image/*"
+              [maxFileSize]="5000000"
+              (onSelect)="onImageUpload($event, step.step)"
+              styleClass="p-button-outlined p-button-sm">
+            </p-fileUpload>
+            
+            <div *ngIf="getStepImage(step.step)" class="step-image-preview">
+              <img [src]="getStepImage(step.step)?.image" [alt]="getStepImage(step.step)?.alt_text" />
+              <button 
+                pButton 
+                type="button" 
+                icon="pi pi-trash" 
+                class="p-button-rounded p-button-danger p-button-sm delete-image-btn"
+                (click)="removeStepImage(step.step)">
+              </button>
+              <span class="image-name">{{ getStepImage(step.step)?.alt_text }}</span>
+            </div>
+          </div>
         </p-card>
         
         <div class="add-step-btn-container">
