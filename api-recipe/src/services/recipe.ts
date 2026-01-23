@@ -59,7 +59,7 @@ export const addRecipeIngredients = async (recipeId: string, ingredients: any[])
  * Insert multiple recipe steps
  * @param recipeId - Recipe UUID
  * @param steps - Array of step data
- * @returns Array of results with stepIndex and insert status
+ * @returns Array of results with stepIndex, stepId and insert status
  */
 export const addRecipeSteps = async (recipeId: string, steps: any[]) => {
   const results = [];
@@ -77,6 +77,7 @@ export const addRecipeSteps = async (recipeId: string, steps: any[]) => {
     
     results.push({
       stepIndex,
+      stepId: inserted?.stepid || null,
       inserted: inserted !== null
     });
   }

@@ -14,6 +14,7 @@ import { Store } from '@ngxs/store';
 import { AddRecipeIngredients } from '../../../store/recipe/recipe.actions';
 import { AddRecipeSteps } from '../../../store/step/step.actions';
 import { AddRecipeImages } from '../../../store/image/image.actions';
+import { StepState } from '../../../store/step/step.state';
 import { RecipeService } from '../../../store/recipe/recipe.service';
 import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
@@ -223,7 +224,11 @@ export class RecipeAddPage {
 
             console.log('Adding steps...', stepsPayload);
             return this.store.dispatch(new AddRecipeSteps(recipeId, stepsPayload)).pipe(
-              switchMap((stepsResult: any) => {
+              switchMap(() => {
+                // Get the created steps from the state
+                const stepsResult = this.store.selectSnapshot(StepState.createdSteps);
+                console.log('Steps result from state:', stepsResult);
+                
                 //Step 4: Ajouter images si il y en a
                 const images = this.stepImages();
                 if (images.length === 0) {
@@ -231,14 +236,18 @@ export class RecipeAddPage {
                   return Promise.resolve({ recipeId });
                 }
 
-                // Note: We need stepId from the backend response
-                // For now, we'll use stepIndex to match with steps
-                const imagesPayload = images.map((img, index) => ({
-                  stepId: null, // TODO: Get stepId from backend response
-                  image: { data: img.image }, // JSONB format
-                  order: index,
-                  alt_text: img.alt_text
-                }));
+                // Map stepIndex to stepId from the backend response
+                const imagesPayload = images.map((img) => {
+                  // Find the corresponding stepId from the steps result
+                  const stepResult = stepsResult.find((s: any) => s.stepIndex === img.step);
+                  
+                  return {
+                    stepId: stepResult?.stepId || null,
+                    image: { data: img.image }, // JSONB format
+                    order: img.step - 1, // Use step number - 1 as order
+                    alt_text: img.alt_text
+                  };
+                });
 
                 console.log('Adding images...', imagesPayload);
                 return this.store.dispatch(new AddRecipeImages(recipeId, imagesPayload)).pipe(

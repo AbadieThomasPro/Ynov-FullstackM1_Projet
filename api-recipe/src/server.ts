@@ -5,7 +5,8 @@ import recipeRouter from "./routes/recipe.js";
 import ingredientRouter from "./routes/ingredient.js";
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const port = process.env.PORT || 3002;
 
 // Configuration Swagger

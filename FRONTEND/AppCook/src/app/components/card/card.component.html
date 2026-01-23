@@ -1,4 +1,4 @@
-<div class="recipe-card p-card" (click)="onClick()">
+<div class="recipe-card p-card" [class.selected]="isSelected" (click)="onClick()">
   <button 
     *ngIf="showDelete" 
     pButton 

@@ -21,6 +21,18 @@
   &:active {
     transform: translateY(-2px);
   }
+
+  &.selected {
+    border: 2px solid var(--primary-color, #3b82f6);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    transform: scale(1.02);
+    background: rgba(59, 130, 246, 0.05);
+    margin-left: 0.5rem;
+    
+    &:hover {
+      transform: scale(1.02) translateY(-2px);
+    }
+  }
 }
 
 .delete-btn {

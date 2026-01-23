@@ -17,6 +17,7 @@ export class CardComponent {
   @Input() ingredient?: Ingredient;
   @Input() quantity?: string; // e.g., "20 g"
   @Input() showDelete = false;
+  @Input() isSelected = false;
   @Output() clickCard = new EventEmitter<string>();
   @Output() select = new EventEmitter<any>();
   @Output() delete = new EventEmitter<void>();

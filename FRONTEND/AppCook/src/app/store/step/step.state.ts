@@ -6,6 +6,7 @@ import { AddRecipeSteps } from './step.actions';
 
 export interface StepStateModel {
   steps: RecipeStep[];
+  createdSteps: any[]; // Store the response from adding steps
   loading: boolean;
 }
 
@@ -13,6 +14,7 @@ export interface StepStateModel {
   name: 'step',
   defaults: {
     steps: [],
+    createdSteps: [],
     loading: false
   }
 })
@@ -30,13 +32,21 @@ export class StepState {
     return state.loading;
   }
 
+  @Selector()
+  static createdSteps(state: StepStateModel) {
+    return state.createdSteps;
+  }
+
   @Action(AddRecipeSteps)
   addRecipeSteps(ctx: StateContext<StepStateModel>, action: AddRecipeSteps) {
     ctx.patchState({ loading: true });
     return this.stepService.addSteps(action.recipeId, action.steps).pipe(
       tap((results) => {
         console.log('Steps added:', results);
-        ctx.patchState({ loading: false });
+        ctx.patchState({ 
+          createdSteps: results,
+          loading: false 
+        });
       })
     );
   }

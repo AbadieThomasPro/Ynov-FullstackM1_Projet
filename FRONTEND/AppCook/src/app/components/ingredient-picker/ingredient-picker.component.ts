@@ -20,6 +20,7 @@ export class IngredientPickerComponent {
   form: FormGroup;
   results = signal<Ingredient[]>([]);
   loading = signal(false);
+  selectedIngredient = signal<Ingredient | null>(null);
 
   units = ['g', 'unit', 'cl', 'ml'];
 
@@ -64,6 +65,8 @@ export class IngredientPickerComponent {
   selectIngredient(ing: Ingredient) {
     // set q to ingredient name
     this.form.get('q')!.setValue(ing.name);
+    // mark as selected for visual feedback
+    this.selectedIngredient.set(ing);
   }
 
   confirmAdd() {
@@ -72,7 +75,8 @@ export class IngredientPickerComponent {
     const amount = Number(this.form.get('amount')!.value) || 0;
     const unit = this.form.get('unit')!.value || 'g';
     this.add.emit({ ingredient, amount, unit });
-    // reset amount but keep q
+    // reset amount and selected ingredient
     this.form.get('amount')!.setValue(1);
+    this.selectedIngredient.set(null);
   }
 }

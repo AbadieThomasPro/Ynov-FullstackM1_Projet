@@ -17,7 +17,8 @@
     <div class="grid">
       <app-card 
         *ngFor="let r of results()" 
-        [ingredient]="r" 
+        [ingredient]="r"
+        [isSelected]="selectedIngredient()?.ingredientid === r.ingredientid"
         (select)="selectIngredient($event)">
       </app-card>
     </div>
