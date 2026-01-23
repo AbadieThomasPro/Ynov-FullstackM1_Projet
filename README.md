@@ -223,6 +223,268 @@ L'application est organisée selon une architecture **« Gateway + microservices
 
 ---
 
+## 📊 Schéma relationnel des bases de données
+
+```mermaid
+erDiagram
+    %% ============================================
+    %% BASE DE DONNÉES USER (api-user)
+    %% ============================================
+    
+    users {
+        uuid userId PK
+        varchar email UK
+        varchar password
+        varchar pseudo
+        varchar avatarUrl
+        text bio
+        varchar role
+    }
+    
+    storage {
+        uuid id PK
+        uuid userId FK
+        boolean fridge
+        uuid ingredientId FK
+        integer quantity
+        varchar unit
+        date expirationDate
+    }
+    
+    shopping_list {
+        uuid listId PK
+        uuid userId FK
+        uuid ingredientId FK
+        integer quantity
+        varchar unit
+        date createdAt
+        date updatedDate
+    }
+    
+    planning {
+        varchar day PK
+        varchar meal PK
+        date date PK
+        uuid userId PK_FK
+        uuid recipeId PK_FK
+    }
+    
+    recipe_favorites {
+        uuid favoritesId PK
+        uuid userId FK
+        uuid recipeId FK
+    }
+    
+    comments {
+        uuid commentId PK
+        uuid recipeId FK
+        uuid userId FK
+        date createdAt
+        smallint rating
+        text comment
+        uuid parentCommentId FK
+    }
+    
+    %% ============================================
+    %% BASE DE DONNÉES RECIPE (api-recipe)
+    %% ============================================
+    
+    recipes {
+        uuid recipeId PK
+        varchar name
+        uuid userId FK
+        text description
+        integer servings
+        integer preperationTime
+        integer cookTime
+        integer totalTime
+        smallint difficulty
+        integer calorie
+        boolean isPrivate
+        date publishedAt
+        date createdAt
+        date updatedAt
+        smallint averageRating
+        integer ratingCount
+        integer viewsCount
+        integer commentCount
+        jsonb tips
+        varchar source
+        varchar language
+        numeric costEstimate
+        varchar mealType
+        varchar seasonal
+        date lastCookedAt
+        boolean isVegan
+        boolean isVegetarian
+        boolean isGlutenFree
+    }
+    
+    ingredients {
+        uuid ingredientId PK
+        varchar ingredientName
+        uuid ingredientCategoryId FK
+        numeric costEstimate
+        varchar origin
+        boolean isVegan
+        boolean isVegetarian
+        boolean isAllergen
+        varchar storageAdvice
+        varchar description
+        integer shelfLifeFridge
+        integer shelfLifeFreezer
+        integer shelfLifeOutside
+        integer shelfLifeOpened
+    }
+    
+    recipe_ingredients {
+        uuid ingredientId PK_FK
+        uuid recipeId PK_FK
+        numeric quantity
+        varchar quantityUnit
+        smallint order
+        boolean optional
+    }
+    
+    recipe_steps {
+        uuid stepId PK
+        uuid recipeId FK
+        integer stepIndex
+        text description
+        integer duration
+        jsonb tips
+    }
+    
+    images {
+        uuid imageId PK
+        uuid recipeId FK
+        uuid stepId FK
+        jsonb image
+        smallint order
+        varchar alt_text
+    }
+    
+    videos {
+        uuid videoId PK
+        uuid recipeId FK
+        uuid stepId FK
+        varchar video
+        smallint order
+        varchar alt_text
+    }
+    
+    nutritions {
+        uuid nutritionId PK
+        uuid recipeId FK
+        uuid ingredientId FK
+        float calorie
+        float protein
+        float proteinPourcent
+        float fats
+        float fatsPourcent
+        float saturatedFattyAcids
+        float saturatedFattyAcidsPourcent
+        float carbohydrates
+        float carbohydratesPourcent
+        float sugars
+        float sugarsPourcent
+        float fiber
+        float fiberPourcent
+        float salt
+        float saltPourcent
+        float sodium
+        float sodiumPourcent
+        float cholesterol
+        float chorlesterolPourcent
+        varchar unit
+        varchar source
+    }
+    
+    ingredient_category {
+        uuid ingredientCategoryId PK
+        varchar ingredientCategory
+    }
+    
+    category {
+        uuid categoryId PK
+        varchar categoryName
+    }
+    
+    recipe_category {
+        uuid categoryId PK_FK
+        uuid recipeId PK_FK
+    }
+    
+    tags {
+        uuid tagId PK
+        varchar tag
+    }
+    
+    recipe_tags {
+        uuid tagId PK_FK
+        uuid recipeId PK_FK
+        integer importance
+    }
+    
+    allergens {
+        uuid allergensId PK
+        varchar allergens
+    }
+    
+    recipe_allergens {
+        uuid allergensId PK_FK
+        uuid recipeId PK_FK
+    }
+    
+    %% ============================================
+    %% RELATIONS - BASE USER
+    %% ============================================
+    
+    users ||--o{ storage : "possède"
+    users ||--o{ shopping_list : "crée"
+    users ||--o{ planning : "planifie"
+    users ||--o{ recipe_favorites : "favori"
+    users ||--o{ comments : "commente"
+    comments ||--o{ comments : "répond à"
+    
+    %% ============================================
+    %% RELATIONS - BASE RECIPE
+    %% ============================================
+    
+    recipes ||--o{ recipe_ingredients : "contient"
+    ingredients ||--o{ recipe_ingredients : "utilisé dans"
+    
+    recipes ||--o{ recipe_steps : "a des étapes"
+    
+    recipes ||--o{ images : "a des images"
+    recipe_steps ||--o{ images : "illustré par"
+    
+    recipes ||--o{ videos : "a des vidéos"
+    recipe_steps ||--o{ videos : "vidéo de"
+    
+    recipes ||--o{ nutritions : "valeurs nutritionnelles"
+    ingredients ||--o{ nutritions : "nutrition de"
+    
+    recipes ||--o{ recipe_category : "appartient à"
+    category ||--o{ recipe_category : "contient"
+    
+    recipes ||--o{ recipe_tags : "taggé avec"
+    tags ||--o{ recipe_tags : "tag de"
+    
+    recipes ||--o{ recipe_allergens : "contient allergène"
+    allergens ||--o{ recipe_allergens : "allergène dans"
+    
+    ingredient_category ||--o{ ingredients : "catégorise"
+    
+    %% ============================================
+    %% RELATIONS INTER-BASES (conceptuelles)
+    %% ============================================
+    
+    %% Note: Ces relations traversent les bases de données
+    %% Dans l'implémentation réelle, elles sont gérées via l'API Gateway
+```
+[![](https://mermaid.ink/img/pako:eNq1Ge1O3DjwVaxI1fUkqGj5Xul-7MFSoVaA-Lgfp0rIm8xmfXXinO0sbCkPcG9xP8tz7IvdONl82glL2QO04Pme8XhmbB48XwTgDTyQx4yGkkZfYoJfb96Q317wVTL9PrwakWP8OT87W_wzuiI3V6NL8pYmbDNVIH99hfT800hR5CFfZICUBRn0NCAXnyr4jEp_SiWBiDJObhyYhCp1J2TgwChIA2HD6YxqKm8kr1Aa7jUZMwexFBxy6GPdAaWFpCFYLrCm-XW3TmrwsUCxNCYTyYIQ2jLiUELAINYtLhZrCEGSv1Maa6bntrVpzHQFDagGAvcJk1QzER_j0uXKVCQJ6rzlTGnLIQM8Xc2p_8F4XwL-CoZteJqYX0GHRwmncYyG1J0plAR07kywCChvIDI92UeX7xefbi33JfgsgSayYVtOcDuhMyGZBvsQlJiXRL1U69TpiyjCDbF1LREuTZbEPhu69kpFlHPceGISMA5b522pvSU-oRKBR6VlTo_WVtguR0enF6O8tOUuv7645XLsaNdyw86_mEbwfKCzuAWgfMkSc6Tt44U8Mwy1sjGJhATySnDN6soKAl-Ir26MFpryJqrc2oBNJsxPef1ElxIpx1wGu-4xdSHZrDy9ZQ4l6RgLztRx4p-pBM6sozMwRfqylXyFdXlSHom0noMFcsbgTnXglonbwv6lRDwmmiXK3l0lUumDDcdCFaa03gHiNALJfNSh9EhpFjWCVK9W1_PEgVFA0Q7KW2HiVKG94mszUtV2_AEhjTsQgN2SubEfeaohPpHgKsNVK7DPQqNNuM5DRXBmn4wKeYTOhULOW-dktShiboYsXmM4hpyDDCF2bEs-LwyDGXPlQf-RngKffGYTOGlNCw4CgG8geyjOU61Y0CfjPIEYgu7O9YJdXa091verezgoMDeNIaE86jgA1v0utkRkIS1Og8sdpSGxHTHQlbtiGULDFAdw_5J6HaR5Se6uI80zFWEWOQJvwC9r40sX6_Bccybr-RCX0zTXt8ZNh7EzzDRhG5uBX21soT-TthZz41Tj4IV7YZtcol5mducwPOGCars95uBECg31utQAX2StpN54cvSEauWCddErqk3qQXBCtZ4PfRaoFUi6pPlUjsV0Hhhy1YvstCcNqVRuaKfPbFzf4xqw22vuhHXSi4ClkRvaGYspFh_MWLw6OlCywNns7ouQa4bo6LO3_rId9lTmWsfs77sFoetC0aXG7xdeoKuW7irJq0n_ibuXpqF9tBHYYS1iuo3slbV64yvaAIsSITWNnRtMl2OFrbDEdLhQ4rsdWVX4T8T7Z29pl6PPw-vT87Mrspnf2Mzz05renL5_39wUD-X7zYB88RKh1OIHDkWei7DxOmLIfbl4ctOW7w6ZVFywCXNTWq8AhiNfOenLG3xmQL4oJZdIFzEam4g4IIt_C_I1701-g17bpbkZoPqwmbuOQ6CpmZ59xejnTDXDHVw84XUIT4P3vOp8MDSs1ExwZPGkKVL1si6ns4opBxQ8Dck2C-M8VRo3zLyB9OpZDlaVHgQsnkSvohpPTk2qjHcqqY1DGRPlkGJGluAYsD6onp1oCSiXzylut4HMzQRjkm19LZNLih7Gdsb0acxqumHCP0LcBjoDv-DLcN3kK_pUFdu6bctKu_gRl0Iqwj4BFZ8jrV1jQZF07WNF9eIJCZiCdVeJ07Pr0eWmqRRX5C067EOi0yxzXv_QhqxnOBMPyBEGWgKnebJpaR5-lAksqiFjqvAzwBBhzmLpViXzMcaM8F-w9_LFkymZmQBi6jsauEEyM3HuQkGYDgZsThpFluHFKfmIQb2jc2_DC_Fe7g20TGHDw3tsRM3Sy9opJscUcNjxTJgDmNCUZ6n4iGwJjf8UIio4pUjDqTeYUK5wlb9rLf-bU5IAXi9l9u7kDd5vbR9mQrzBg3fvDTb33---29_Z2tnaOtjaO9g63Nvw5gje3n23c7h9sLuzd7C9t723_7jhfcvUvn-3v_9he-_DAX4j9vBw9_E_1wMSew?type=png)](https://mermaid.live/edit#pako:eNq1Ge1O3DjwVaxI1fUkqGj5Xul-7MFSoVaA-Lgfp0rIm8xmfXXinO0sbCkPcG9xP8tz7IvdONl82glL2QO04Pme8XhmbB48XwTgDTyQx4yGkkZfYoJfb96Q317wVTL9PrwakWP8OT87W_wzuiI3V6NL8pYmbDNVIH99hfT800hR5CFfZICUBRn0NCAXnyr4jEp_SiWBiDJObhyYhCp1J2TgwChIA2HD6YxqKm8kr1Aa7jUZMwexFBxy6GPdAaWFpCFYLrCm-XW3TmrwsUCxNCYTyYIQ2jLiUELAINYtLhZrCEGSv1Maa6bntrVpzHQFDagGAvcJk1QzER_j0uXKVCQJ6rzlTGnLIQM8Xc2p_8F4XwL-CoZteJqYX0GHRwmncYyG1J0plAR07kywCChvIDI92UeX7xefbi33JfgsgSayYVtOcDuhMyGZBvsQlJiXRL1U69TpiyjCDbF1LREuTZbEPhu69kpFlHPceGISMA5b522pvSU-oRKBR6VlTo_WVtguR0enF6O8tOUuv7645XLsaNdyw86_mEbwfKCzuAWgfMkSc6Tt44U8Mwy1sjGJhATySnDN6soKAl-Ir26MFpryJqrc2oBNJsxPef1ElxIpx1wGu-4xdSHZrDy9ZQ4l6RgLztRx4p-pBM6sozMwRfqylXyFdXlSHom0noMFcsbgTnXglonbwv6lRDwmmiXK3l0lUumDDcdCFaa03gHiNALJfNSh9EhpFjWCVK9W1_PEgVFA0Q7KW2HiVKG94mszUtV2_AEhjTsQgN2SubEfeaohPpHgKsNVK7DPQqNNuM5DRXBmn4wKeYTOhULOW-dktShiboYsXmM4hpyDDCF2bEs-LwyDGXPlQf-RngKffGYTOGlNCw4CgG8geyjOU61Y0CfjPIEYgu7O9YJdXa091verezgoMDeNIaE86jgA1v0utkRkIS1Og8sdpSGxHTHQlbtiGULDFAdw_5J6HaR5Se6uI80zFWEWOQJvwC9r40sX6_Bccybr-RCX0zTXt8ZNh7EzzDRhG5uBX21soT-TthZz41Tj4IV7YZtcol5mducwPOGCars95uBECg31utQAX2StpN54cvSEauWCddErqk3qQXBCtZ4PfRaoFUi6pPlUjsV0Hhhy1YvstCcNqVRuaKfPbFzf4xqw22vuhHXSi4ClkRvaGYspFh_MWLw6OlCywNns7ouQa4bo6LO3_rId9lTmWsfs77sFoetC0aXG7xdeoKuW7irJq0n_ibuXpqF9tBHYYS1iuo3slbV64yvaAIsSITWNnRtMl2OFrbDEdLhQ4rsdWVX4T8T7Z29pl6PPw-vT87Mrspnf2Mzz05renL5_39wUD-X7zYB88RKh1OIHDkWei7DxOmLIfbl4ctOW7w6ZVFywCXNTWq8AhiNfOenLG3xmQL4oJZdIFzEam4g4IIt_C_I1701-g17bpbkZoPqwmbuOQ6CpmZ59xejnTDXDHVw84XUIT4P3vOp8MDSs1ExwZPGkKVL1si6ns4opBxQ8Dck2C-M8VRo3zLyB9OpZDlaVHgQsnkSvohpPTk2qjHcqqY1DGRPlkGJGluAYsD6onp1oCSiXzylut4HMzQRjkm19LZNLih7Gdsb0acxqumHCP0LcBjoDv-DLcN3kK_pUFdu6bctKu_gRl0Iqwj4BFZ8jrV1jQZF07WNF9eIJCZiCdVeJ07Pr0eWmqRRX5C067EOi0yxzXv_QhqxnOBMPyBEGWgKnebJpaR5-lAksqiFjqvAzwBBhzmLpViXzMcaM8F-w9_LFkymZmQBi6jsauEEyM3HuQkGYDgZsThpFluHFKfmIQb2jc2_DC_Fe7g20TGHDw3tsRM3Sy9opJscUcNjxTJgDmNCUZ6n4iGwJjf8UIio4pUjDqTeYUK5wlb9rLf-bU5IAXi9l9u7kDd5vbR9mQrzBg3fvDTb33---29_Z2tnaOtjaO9g63Nvw5gje3n23c7h9sLuzd7C9t723_7jhfcvUvn-3v_9he-_DAX4j9vBw9_E_1wMSew)
+
 ## 📎Annexes:
 
 ### 🧾 Création de la table `users` dans PostgreSQL
@@ -262,6 +524,31 @@ cd Ynov-FullstackM1_Projet
 
 - Crée un fichier `.env` à la racine du projet. Ce fichier doit contenir toutes les variables d’environnement utilisées dans le `docker-compose.yml` (exemple : mots de passe, ports, secrets, etc.).
 
+```env
+# Pour user-db
+POSTGRES_USER_USERDB=user
+POSTGRES_PASSWORD_USERDB=user
+POSTGRES_DB_USERDB=users_db
+
+# Pour recipe-db
+POSTGRES_USER_RECIPEDB=recipe
+POSTGRES_PASSWORD_RECIPEDB=recipe
+POSTGRES_DB_RECIPEDB=recipes_db
+
+# Pour api-user
+PGUSER_USER=user
+PGPASSWORD_USER=user
+PGHOST_USER=db-user
+PGPORT_USER=5432
+PGDATABASE_USER=users_db
+
+# Pour api-recipe
+PGUSER_RECIPE=recipe
+PGPASSWORD_RECIPE=recipe
+PGHOST_RECIPE=db-recipe
+PGPORT_RECIPE=5432
+PGDATABASE_RECIPE=recipes_db
+```
 
 
 3. **Lancer l'application avec Docker** 
