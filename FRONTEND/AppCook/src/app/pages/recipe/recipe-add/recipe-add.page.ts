@@ -10,6 +10,13 @@ import { CardModule } from 'primeng/card';
 import { FileUploadModule } from 'primeng/fileupload';
 import { IngredientPickerComponent } from '../../../components/ingredient-picker/ingredient-picker.component';
 import { CardComponent } from '../../../components/card/card.component';
+import { Store } from '@ngxs/store';
+import { AddRecipeIngredients } from '../../../store/recipe/recipe.actions';
+import { AddRecipeSteps } from '../../../store/step/step.actions';
+import { AddRecipeImages } from '../../../store/image/image.actions';
+import { RecipeService } from '../../../store/recipe/recipe.service';
+import { Router } from '@angular/router';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipe-add',
@@ -27,7 +34,12 @@ export class RecipeAddPage {
   steps = signal<Array<{ step: number; text: string; image?: string; alt_text?: string }>>([{ step: 1, text: '' }]);
   stepImages = signal<Array<{ step: number; image: string; alt_text: string }>>([]);
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder, 
+    private store: Store, 
+    private router: Router,
+    private recipeService: RecipeService
+  ) {
     // initialize with validators now that fb is available
     this.form = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -158,14 +170,98 @@ export class RecipeAddPage {
 
   submit() {
     if (this.form.invalid) return;
-    const payload = { 
-      ...this.form.value, 
-      totalTime: this.totalTime, 
-      ingredients: this.ingredients(),
-      steps: this.steps(),
-      stepImages: this.stepImages()
+    
+    //Récupérer userId du localStorage
+    const userId = localStorage.getItem('userid');
+    if (!userId) {
+      console.error('User not logged in');
+      return;
+    }
+
+    //Step 1: Crée la recette
+    const recipePayload = {
+      name: this.form.value.name,
+      userid: userId,
+      description: this.form.value.description,
+      servings: this.form.value.servings,
+      preperationTime: this.form.value.prepTime,
+      cookTime: this.form.value.cookTime,
+      totalTime: this.totalTime,
+      difficulty: this.form.value.difficulty
     };
-    console.log('submit payload', payload);
-    // TODO: call recipe service to create recipe
+
+    console.log('Creating recipe...', recipePayload);
+
+    this.recipeService.create(recipePayload).pipe(
+      switchMap((recipe: any) => {
+        const recipeId = recipe.recipeid;
+        console.log('Recipe created with ID:', recipeId);
+
+        if (!recipeId) {
+          throw new Error('Recipe ID not returned');
+        }
+
+        //Step 2: Ajouter les ingrédients
+        const ingredientsPayload = this.ingredients().map((ing, index) => ({
+          ingredientId: ing.ingredientId,
+          quantity: ing.quantity,
+          quantityUnit: ing.unity,
+          order: index,
+          optional: false
+        }));
+
+        console.log('Adding ingredients...', ingredientsPayload);
+        return this.store.dispatch(new AddRecipeIngredients(recipeId, ingredientsPayload)).pipe(
+          switchMap(() => {
+            //Step 3: Ajouter les étapes
+            const stepsPayload = this.steps().map((step, index) => ({
+              stepIndex: index + 1,
+              description: step.text,
+              duration: 5, // Par défault pour l'instant 5 minutes
+              tips: null
+            }));
+
+            console.log('Adding steps...', stepsPayload);
+            return this.store.dispatch(new AddRecipeSteps(recipeId, stepsPayload)).pipe(
+              switchMap((stepsResult: any) => {
+                //Step 4: Ajouter images si il y en a
+                const images = this.stepImages();
+                if (images.length === 0) {
+                  console.log('No images to add');
+                  return Promise.resolve({ recipeId });
+                }
+
+                // Note: We need stepId from the backend response
+                // For now, we'll use stepIndex to match with steps
+                const imagesPayload = images.map((img, index) => ({
+                  stepId: null, // TODO: Get stepId from backend response
+                  image: { data: img.image }, // JSONB format
+                  order: index,
+                  alt_text: img.alt_text
+                }));
+
+                console.log('Adding images...', imagesPayload);
+                return this.store.dispatch(new AddRecipeImages(recipeId, imagesPayload)).pipe(
+                  tap(() => ({ recipeId }))
+                );
+              })
+            );
+          })
+        );
+      }),
+      tap((result: any) => {
+        console.log('Recipe creation complete!', result);
+      })
+    ).subscribe({
+      next: () => {
+        console.log('Recipe created successfully!');
+        alert('Recette créée avec succès !');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error('Error creating recipe:', err);
+        alert('Erreur lors de la création de la recette');
+      }
+    });
   }
 }

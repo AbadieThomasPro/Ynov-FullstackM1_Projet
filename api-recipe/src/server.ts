@@ -18,7 +18,7 @@ const swaggerOptions = {
       description: "Documentation de l'API Recipe"
     },
   },
-  apis: ["./src/routes/*.ts", "./src/routes/*.js"], // adapte le chemin si besoin
+  apis: ["./src/routes/*.ts", "./src/routes/*.js"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 

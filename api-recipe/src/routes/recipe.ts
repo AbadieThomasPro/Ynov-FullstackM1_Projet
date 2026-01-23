@@ -1,14 +1,17 @@
 import { Router } from "express";
 import { helloController } from "../controllers/recipe.js";
+import { getAllRecipesController, getRecipeByIdController, createRecipeController, updateRecipeController, deleteRecipeController, addRecipeIngredientsController, addRecipeStepsController } from '../controllers/recipe.js';
+import { addStepImagesController } from '../controllers/image.js';
 
 const recipeRouter = Router();
 
-import { getAllRecipesController, getRecipeByIdController, createRecipeController, updateRecipeController, deleteRecipeController, addRecipeIngredientsController, addRecipeStepsController } from '../controllers/recipe.js';
 
 /**
  * @openapi
  * /recipe/hello:
  *   get:
+ *     tags:
+ *       - Recipe
  *     summary: Retourne un message de test
  *     description: Teste l'API Recipe en renvoyant un message simple.
  *     responses:
@@ -29,6 +32,8 @@ recipeRouter.get("/hello", helloController);
  * @openapi
  * /recipe:
  *   get:
+ *     tags:
+ *       - Recipe
  *     summary: Récupère toutes les recettes
  *     description: Retourne la liste complète des recettes disponibles
  *     responses:
@@ -69,6 +74,8 @@ recipeRouter.get('/', getAllRecipesController);
  * @openapi
  * /recipe/{id}:
  *   get:
+ *     tags:
+ *       - Recipe
  *     summary: Récupère une recette par son ID
  *     description: Retourne les détails d'une recette spécifique
  *     parameters:
@@ -118,6 +125,8 @@ recipeRouter.get('/:id', getRecipeByIdController);
  * @openapi
  * /recipe:
  *   post:
+ *     tags:
+ *       - Recipe
  *     summary: Crée une nouvelle recette
  *     description: Insère une nouvelle recette dans la base de données
  *     requestBody:
@@ -171,6 +180,8 @@ recipeRouter.post('/', createRecipeController);
  * @openapi
  * /recipe/{id}:
  *   put:
+ *     tags:
+ *       - Recipe
  *     summary: Met à jour une recette
  *     description: Modifie les informations d'une recette existante
  *     parameters:
@@ -215,6 +226,8 @@ recipeRouter.put('/:id', updateRecipeController);
  * @openapi
  * /recipe/{id}:
  *   delete:
+ *     tags:
+ *       - Recipe
  *     summary: Supprime une recette
  *     description: Supprime définitivement une recette de la base de données
  *     parameters:
@@ -247,6 +260,8 @@ recipeRouter.delete('/:id', deleteRecipeController);
  * @openapi
  * /recipe/{id}/ingredients:
  *   post:
+ *     tags:
+ *       - Ingredients
  *     summary: Ajoute des ingrédients à une recette
  *     description: Insère plusieurs ingrédients pour une recette donnée dans la table recipe_ingredients
  *     parameters:
@@ -303,6 +318,8 @@ recipeRouter.post('/:id/ingredients', addRecipeIngredientsController);
  * @openapi
  * /recipe/{id}/steps:
  *   post:
+ *     tags:
+ *       - Recipe Steps
  *     summary: Ajoute des étapes à une recette
  *     description: Insère plusieurs étapes pour une recette donnée dans la table recipe_steps
  *     parameters:
@@ -354,5 +371,62 @@ recipeRouter.post('/:id/ingredients', addRecipeIngredientsController);
  *         description: Erreur serveur
  */
 recipeRouter.post('/:id/steps', addRecipeStepsController);
+
+/**
+ * @openapi
+ * /recipe/{id}/images:
+ *   post:
+ *     tags:
+ *       - Images
+ *     summary: Ajoute des images aux étapes d'une recette
+ *     description: Insère plusieurs images pour les étapes d'une recette dans la table images
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: UUID de la recette
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stepId:
+ *                       type: string
+ *                     image:
+ *                       type: object
+ *                       description: Image data as JSONB
+ *                     order:
+ *                       type: integer
+ *                     alt_text:
+ *                       type: string
+ *     responses:
+ *       201:
+ *         description: Images ajoutées avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   alt_text:
+ *                     type: string
+ *                   inserted:
+ *                     type: boolean
+ *       400:
+ *         description: Requête invalide
+ *       500:
+ *         description: Erreur serveur
+ */
+recipeRouter.post('/:id/images', addStepImagesController);
 
 export default recipeRouter;

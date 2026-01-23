@@ -39,4 +39,8 @@ export class RecipeService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.urlBase}/recipe/${id}`);
   }
+
+  addIngredientsRecipe(recipeId: string, ingredients: any[]): Observable<any[]> {
+    return this.http.post<any[]>(`${this.urlBase}/recipe/${recipeId}/ingredients`, { ingredients });
+  }
 }

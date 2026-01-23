@@ -22,3 +22,8 @@ export class DeleteRecipe {
   static readonly type = '[Recipe] Delete';
   constructor(public id: string) {}
 }
+
+export class AddRecipeIngredients {
+  static readonly type = '[Recipe] Add Ingredients';
+  constructor(public recipeId: string, public ingredients: any[]) {}
+}

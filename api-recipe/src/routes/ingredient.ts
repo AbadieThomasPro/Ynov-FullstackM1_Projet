@@ -7,6 +7,8 @@ const ingredientRouter = Router();
  * @openapi
  * /recipe/ingredients:
  *   get:
+ *     tags:
+ *       - Ingredients
  *     summary: Retourne la liste des ingrédients
  *     responses:
  *       200:
@@ -17,6 +19,8 @@ ingredientRouter.get('/', getAllIngredientsController);
  * @openapi
  * /recipe/ingredients/search:
  *   get:
+ *     tags:
+ *       - Ingredients
  *     summary: Recherche d'ingrédients par nom (query param `q`)
  *     parameters:
  *       - in: query
@@ -37,6 +41,8 @@ ingredientRouter.get('/search', searchIngredientsController);
  * @openapi
  * /recipe/ingredients/{id}:
  *   get:
+ *     tags:
+ *       - Ingredients
  *     summary: Retourne un ingrédient par son id
  *     parameters:
  *       - in: path

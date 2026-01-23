@@ -1,7 +1,7 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeService, Recipe } from './recipe.service';
-import { GetAllRecipes, GetRecipeById, CreateRecipe, UpdateRecipe, DeleteRecipe } from './recipe.actions';
+import { GetAllRecipes, GetRecipeById, CreateRecipe, UpdateRecipe, DeleteRecipe, AddRecipeIngredients } from './recipe.actions';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -80,6 +80,16 @@ export class RecipeState {
         ctx.patchState({ recipes: state.recipes.filter(r => r.recipeid !== action.id) });
       }),
       catchError(err => { console.error('[NGXS] DeleteRecipe error', err); return of(err); })
+    );
+  }
+
+  @Action(AddRecipeIngredients)
+  addIngredients(ctx: StateContext<RecipeStateModel>, action: AddRecipeIngredients) {
+    return this.recipeService.addIngredientsRecipe(action.recipeId, action.ingredients).pipe(
+      tap((results) => {
+        console.log('[NGXS] Recipe ingredients added:', results);
+      }),
+      catchError(err => { console.error('[NGXS] AddRecipeIngredients error', err); return of(err); })
     );
   }
 }

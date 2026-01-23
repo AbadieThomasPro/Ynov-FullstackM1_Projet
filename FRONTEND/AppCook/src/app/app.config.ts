@@ -11,6 +11,8 @@ import { TestState } from './store/test/test.state';
 import { UserState } from './store/user/user.state';
 import { RecipeState } from './store/recipe/recipe.state';
 import { IngredientState } from './store/ingredient/ingredient.state';
+import { StepState } from './store/step/step.state';
+import { ImageState } from './store/image/image.state';
 import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -23,6 +25,8 @@ export const appConfig: ApplicationConfig = {
         UserState,
         RecipeState,
         IngredientState,
+        StepState,
+        ImageState,
       ],
     ),
     provideHttpClient(withInterceptors([authInterceptor])),
