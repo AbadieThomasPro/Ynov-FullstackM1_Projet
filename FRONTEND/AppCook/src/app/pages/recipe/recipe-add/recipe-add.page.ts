@@ -23,7 +23,7 @@ export class RecipeAddPage {
 
   difficulties = Array.from({ length: 10 }, (_, i) => i + 1);
 
-  ingredients = signal<Array<{ ingredient: any; quantity: number; unity: string }>>([]);
+  ingredients = signal<Array<{ ingredientId: string; ingredient: any; quantity: number; unity: string }>>([]);
   steps = signal<Array<{ step: number; text: string; image?: string; alt_text?: string }>>([{ step: 1, text: '' }]);
   stepImages = signal<Array<{ step: number; image: string; alt_text: string }>>([]);
 
@@ -41,12 +41,15 @@ export class RecipeAddPage {
 
   onAddIngredient(event: { ingredient: any | null; amount: number; unit: string }) {
     const list = this.ingredients();
-    // Transform to match backend structure: {ingredient, quantity, unity}
-    this.ingredients.set([...list, {
-      ingredient: event.ingredient,
-      quantity: event.amount,
-      unity: event.unit
-    }]);
+    // Transform to match backend structure: {ingredientId, ingredient, quantity, unity}
+    if (event.ingredient) {
+      this.ingredients.set([...list, {
+        ingredientId: event.ingredient.ingredientid,
+        ingredient: event.ingredient,
+        quantity: event.amount,
+        unity: event.unit
+      }]);
+    }
   }
 
   get totalTime() {

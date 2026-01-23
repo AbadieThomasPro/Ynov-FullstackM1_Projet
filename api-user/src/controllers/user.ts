@@ -1,11 +1,19 @@
 import type { Request, Response } from 'express';
 import { listUsersService, deleteUserService, testApiUserService, getUserByIdService } from '../services/user.js';
 
+/**
+ * List all users
+ * GET /user
+ */
 const listUsersController = async (req: Request, res: Response) => {
     const users = await listUsersService();
     return res.status(200).json(users);
 };
 
+/**
+ * Delete user by ID
+ * DELETE /user/:id
+ */
 const deleteUserController = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'id param is required' });
@@ -13,11 +21,19 @@ const deleteUserController = async (req: Request, res: Response) => {
     return res.status(200).json(user);
 };
 
+/**
+ * Test API user endpoint
+ * GET /user/test
+ */
 const testApiUserController = async (req: Request, res: Response) => {
     const result = await testApiUserService();
     return res.status(200).json(result);
 }
 
+/**
+ * Get user by ID
+ * GET /user/:id
+ */
 const getUserByIdController = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'id param is required' });

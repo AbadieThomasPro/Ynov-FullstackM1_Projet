@@ -79,8 +79,6 @@ CREATE TABLE recipe_steps (
 	stepIndex integer,
 	description text,
 	duration integer,
-	imageId uuid,
-	videoId uuid,
 	tips jsonb,
 	FOREIGN KEY (recipeId) REFERENCES recipes(recipeId)
 );

@@ -13,12 +13,21 @@ export type Ingredient = {
   description: string | null;
 };
 
+/**
+ * Get all ingredients
+ * @returns Array of all ingredients
+ */
 export const getAllIngredientsQuery = async () => {
   const result = await pool.query(
     `SELECT ingredientid, ingredientname, ingredientcategoryid, costestimate, origin, isvegan, isvegetarian, isallergen, storageadvice, description FROM ingredients`);
   return result.rows as Ingredient[];
 };
 
+/**
+ * Get ingredient by ID
+ * @param id - Ingredient UUID
+ * @returns Ingredient object or undefined
+ */
 export const getIngredientByIdQuery = async (id: string) => {
   const result = await pool.query(
     `SELECT ingredientid, ingredientname, ingredientcategoryid, costestimate, origin, isvegan, isvegetarian, isallergen, storageadvice, description FROM ingredients WHERE ingredientid = $1`,
@@ -27,6 +36,11 @@ export const getIngredientByIdQuery = async (id: string) => {
   return result.rows[0] as Ingredient | undefined;
 };
 
+/**
+ * Search ingredients by name
+ * @param q - Search query string
+ * @returns Array of matching ingredients (max 50 results)
+ */
 export const searchIngredientsQuery = async (q: string) => {
   const term = `%${q}%`;
   const result = await pool.query(
