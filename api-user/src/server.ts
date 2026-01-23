@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.js";
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3001;
+console.log("[SERVER] Démarrage de l'API User...");
 
 
 // Configuration Swagger
@@ -43,9 +44,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// expose router user sur /user
+// expose router user sur /user et auth sur /user/auth
 app.use('/user', userRouter);
-app.use("/auth", authRouter);
+app.use("/user/auth", authRouter);
 app.get("/", (req, res) => res.send("Hello from API USER!"));
 
 
@@ -53,5 +54,11 @@ app.get("/", (req, res) => res.send("Hello from API USER!"));
 
 // disable etag on api-user as well to avoid 304 responses from this service
 app.disable('etag');
+// Generic error handler to return JSON instead of HTML
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('Unhandled error', err);
+  const status = err?.status || 500;
+  res.status(status).json({ error: err?.message || 'Internal Server Error' });
+});
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

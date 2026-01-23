@@ -1,0 +1,68 @@
+.generic-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    label {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95rem;
+    }
+    
+    input,
+    textarea,
+    ::ng-deep .p-inputtext,
+    ::ng-deep .p-dropdown,
+    ::ng-deep .p-calendar,
+    ::ng-deep .p-inputnumber-input {
+      width: 100%;
+    }
+    
+    ::ng-deep .p-password {
+      width: 100%;
+      
+      input {
+        width: 100%;
+      }
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    .ng-invalid.ng-touched {
+      border-color: #e74c3c !important;
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    
+    ::ng-deep .p-button {
+      min-width: 150px;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .generic-form {
+    gap: 1rem;
+    
+    .form-actions {
+      ::ng-deep .p-button {
+        width: 100%;
+      }
+    }
+  }
+}

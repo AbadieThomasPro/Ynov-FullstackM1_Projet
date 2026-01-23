@@ -1,0 +1,16 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Connexion</h1>
+    <p class="subtitle">Connectez-vous à votre compte</p>
+    
+    <app-form 
+      [fields]="loginFields()"
+      submitLabel="Se connecter"
+      (formSubmit)="onLogin($event)">
+    </app-form>
+
+    <div class="footer-links">
+      <p>Pas encore de compte ? <a routerLink="/register">Inscrivez-vous</a></p>
+    </div>
+  </div>
+</div>

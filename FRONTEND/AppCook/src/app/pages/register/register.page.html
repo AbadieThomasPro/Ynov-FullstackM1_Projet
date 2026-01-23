@@ -1,0 +1,20 @@
+<div class="register-container">
+  <h2>Créer un compte</h2>
+  
+  <app-form
+    [fields]="registerFields()"
+    [submitLabel]="'Créer mon compte'"
+    [loading]="loading()"
+    (formSubmit)="onRegister($event)"
+  />
+  
+  @if (error()) {
+    <div class="error-banner">
+      {{ error() }}
+    </div>
+  }
+  
+  <div class="login-link">
+    Déjà un compte ? <a routerLink="/login">Se connecter</a>
+  </div>
+</div>

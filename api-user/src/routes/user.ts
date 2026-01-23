@@ -1,4 +1,4 @@
-import { listUsersController, deleteUserController, testApiUserController } from '../controllers/user.js';
+import { listUsersController, deleteUserController, testApiUserController, getUserByIdController } from '../controllers/user.js';
 import { Router } from 'express';
 import { authMiddleware } from '../middlewares/auth.js';
 
@@ -56,6 +56,31 @@ userRouter.get('/', authMiddleware, listUsersController);
  *         description: Utilisateur non trouvé
  */
 userRouter.delete('/:id', authMiddleware, deleteUserController);
+
+/**
+ * @openapi
+ * /user/{id}:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: Récupère un utilisateur par ID
+ *     description: Retourne les données complètes d'un utilisateur.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de l'utilisateur
+ *     responses:
+ *       200:
+ *         description: Utilisateur trouvé
+ *       404:
+ *         description: Utilisateur non trouvé
+ */
+userRouter.get('/:id', authMiddleware, getUserByIdController);
 
 /**
  * @openapi

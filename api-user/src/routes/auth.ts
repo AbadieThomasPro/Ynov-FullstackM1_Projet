@@ -5,7 +5,7 @@ const authRouter = Router();
 
 /**
  * @openapi
- * /auth/login:
+ * /user/auth/login:
  *   post:
  *     tags:
  *       - Auth
@@ -46,7 +46,7 @@ authRouter.post('/login', login);
 
 /**
  * @openapi
- * /auth/register:
+ * /user/auth/register:
  *   post:
  *     tags:
  *       - Auth
@@ -91,7 +91,7 @@ authRouter.post('/register' , register);
 
 /**
  * @openapi
- * /auth/logout:
+ * /user/auth/logout:
  *   post:
  *     tags:
  *       - Auth

@@ -4,5 +4,8 @@
     "eslint": "^9.39.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0"
+  },
+  "dependencies": {
+    "@primeng/themes": "^21.0.3"
   }
 }

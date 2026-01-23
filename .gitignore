@@ -73,6 +73,9 @@ temp/
 coverage/
 reports/
 
+# Documentation
+primeNg-LLM.txt
+
 # Keep lockfiles - commit them to ensure reproducible installs
 !package-lock.json
 !yarn.lock

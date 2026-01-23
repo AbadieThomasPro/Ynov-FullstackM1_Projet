@@ -4,27 +4,17 @@ import type { Route } from './routes.js';
 
 const setupProxies = (app: Application, routes: Route[]) => {
     routes.forEach(route => {
+        console.log(`[PROXY SETUP] Mounting proxy for ${route.url} -> ${route.proxy.target}`);
         const options = {
             ...route.proxy,
-            target: `${route.proxy.target}${route.url}`,
-            // target: route.proxy.target,
-            // pathRewrite: (path: any, req: any) => {
-            //     // Ne réécrit pas /user/swagger (ni /user/swagger/), laisse tel quel
-            //     if (path.startsWith('/user/swagger')) return path;
-            //     // Sinon, retire /user du début
-            //     return path.replace(/^\/user/, '');
-            // },
-            //pathRewrite: { [`^${route.url}`]: route.url },
-                
-            //target: route.proxy.target,
-            // pathRewrite: (path: string, req: any) => {
-            //     // Si c'est la racine (ex: /user), ne réécrit rien
-            //     if (path === route.url || path === route.url + '/') {
-            //         return path;
-            //     }
-            //     // Sinon, retire le préfixe (ex: /user/swagger -> /swagger)
-            //     return path.replace(new RegExp(`^${route.url}`), '');
-            // },
+            target: route.proxy.target,
+            pathRewrite: (path: string, req: any) => {
+                // Réécrit le chemin en rajoutant le préfixe de route qu'Express a retiré
+                // Exemple: /swagger -> /user/swagger, /auth/register -> /user/auth/register
+                const newPath = `${route.url}${path}`;
+                console.log(`[PROXY] ${route.url} : ${path} -> ${newPath} (target: ${route.proxy.target})`);
+                return newPath;
+            },
             onProxyRes: (proxyRes: any, req: any, res: any) => {
                 try {
                     if (proxyRes.headers) {

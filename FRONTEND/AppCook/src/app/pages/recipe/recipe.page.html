@@ -1,0 +1,14 @@
+<div class="recipe-page">
+  <div class="header">
+    <input pInputText type="text" placeholder="Rechercher" [ngModel]="query()" (ngModelChange)="onQueryChange($event)" />
+    <button pButton type="button" icon="pi pi-plus" class="p-button-rounded p-button-success add-btn" title="ajouter une recette" (click)="onAdd()"></button>
+  </div>
+
+  <div class="grid">
+    <div class="card-list">
+      <ng-container *ngFor="let r of filtered()">
+        <app-card [recipe]="r" (clickCard)="onCardClick($event)"></app-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

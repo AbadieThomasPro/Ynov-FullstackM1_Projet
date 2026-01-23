@@ -1,0 +1,16 @@
+<header class="header">
+  <div class="logo">🍲 AppCook</div>
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Accueil</a>
+    <a routerLink="/recipes" routerLinkActive="active">Recettes</a>
+    <a *ngIf="!(isAuthenticated$ | async)" routerLink="/login" routerLinkActive="active">Connexion</a>
+    <a *ngIf="!(isAuthenticated$ | async)" routerLink="/register" routerLinkActive="active">Inscription</a>
+
+    <div *ngIf="isAuthenticated$ | async" class="profile-menu">
+      <p-menu #menu [model]="profileItems" [popup]="true"></p-menu>
+      <button pButton type="button" class="p-button-rounded profile-btn" (click)="menu.toggle($event)">
+        <i class="pi pi-user"></i>
+      </button>
+    </div>
+  </nav>
+</header>

@@ -2,9 +2,11 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import recipeRouter from "./routes/recipe.js";
-
+import ingredientRouter from "./routes/ingredient.js";
 
 const app = express();
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const port = process.env.PORT || 3002;
 
 // Configuration Swagger
@@ -17,7 +19,7 @@ const swaggerOptions = {
       description: "Documentation de l'API Recipe"
     },
   },
-  apis: ["./src/routes/*.ts", "./src/routes/*.js"], // adapte le chemin si besoin
+  apis: ["./src/routes/*.ts", "./src/routes/*.js"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
@@ -25,6 +27,15 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use("/recipe/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/recipe", recipeRouter);
+app.use('/recipe/ingredients', ingredientRouter);
 
 app.get("/", (req, res) => res.send("Hello from API RECIPE!"));
+
+// Generic error handler to return JSON instead of HTML
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error('Unhandled error', err);
+  const status = err?.status || 500;
+  res.status(status).json({ error: err?.message || 'Internal Server Error' });
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));

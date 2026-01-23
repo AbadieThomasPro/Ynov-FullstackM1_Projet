@@ -1,0 +1,46 @@
+.register-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .error-banner {
+    background: #fee;
+    color: #c33;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+    
+    a {
+      color: #4e9cff;
+      text-decoration: none;
+      font-weight: 600;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .register-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}

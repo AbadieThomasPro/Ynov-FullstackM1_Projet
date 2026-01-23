@@ -1,0 +1,9 @@
+<section *ngIf="user$ | async as user; else noUser">
+    <h2>Profil de {{ user.pseudo || user.email }}</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Pseudo:</strong> {{ user.pseudo }}</p>
+    <p *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
+</section>
+<ng-template #noUser>
+    <p>Profil non chargé.</p>
+</ng-template>

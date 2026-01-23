@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #222;
+  color: #fff;
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  nav {
+    display: flex;
+    gap: 1rem;
+    a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      transition: background 0.2s;
+      &.active, &:hover {
+        background: #4e9cff;
+        color: #222;
+      }
+    }
+  }
+}
+
+.profile-menu {
+
+  .profile-btn {
+    background: transparent !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.4rem !important;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,110 @@
+<div class="recipe-add">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <h5>Nom</h5>
+      <input pInputText formControlName="name" />
+    </div>
+
+    <div class="field">
+      <h5>Description</h5>
+      <textarea pInputTextarea formControlName="description"></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field"><h5>Portions</h5><input pInputText type="number" formControlName="servings" /></div>
+      <div class="field"><h5>Préparation (min)</h5><input pInputText type="number" formControlName="prepTime" /></div>
+      <div class="field"><h5>Cuisson (min)</h5><input pInputText type="number" formControlName="cookTime" /></div>
+      <div class="field"><h5>Difficulté</h5>
+        <select formControlName="difficulty" class="difficulty">
+          <option *ngFor="let d of difficulties" [value]="d">{{ d }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <h5>Ingrédients</h5>
+      <app-ingredient-picker (add)="onAddIngredient($event)"></app-ingredient-picker>
+      <div class="ingredients-list" *ngIf="ingredients().length > 0">
+        <div class="ingredients-grid">
+          <app-card 
+            *ngFor="let item of ingredients(); let i = index"
+            [ingredient]="item.ingredient"
+            [quantity]="item.quantity + ' ' + item.unity"
+            [showDelete]="true"
+            (delete)="removeIngredient(i)">
+          </app-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <h5>Étapes</h5>
+      <div class="steps-container">
+        <p-card *ngFor="let step of steps(); let i = index" class="step-card">
+          <div class="step-header">
+            <span class="step-number">Étape {{ i + 1 }}:</span>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-times" 
+              class="p-button-rounded p-button-danger p-button-text delete-step-btn"
+              (click)="removeStep(i)">
+            </button>
+          </div>
+          
+          <textarea 
+            pInputTextarea 
+            [(ngModel)]="step.text"
+            [ngModelOptions]="{standalone: true}"
+            rows="3"
+            placeholder="Décrivez cette étape..."></textarea>
+          
+          <div class="step-image-upload">
+            <p-fileUpload 
+              *ngIf="!getStepImage(step.step)"
+              mode="basic" 
+              chooseLabel="Ajouter une image"
+              chooseIcon="pi pi-image"
+              [auto]="true"
+              accept="image/*"
+              [maxFileSize]="5000000"
+              (onSelect)="onImageUpload($event, step.step)"
+              styleClass="p-button-outlined p-button-sm">
+            </p-fileUpload>
+            
+            <div *ngIf="getStepImage(step.step)" class="step-image-preview">
+              <img [src]="getStepImage(step.step)?.image" [alt]="getStepImage(step.step)?.alt_text" />
+              <button 
+                pButton 
+                type="button" 
+                icon="pi pi-trash" 
+                class="p-button-rounded p-button-danger p-button-sm delete-image-btn"
+                (click)="removeStepImage(step.step)">
+              </button>
+              <span class="image-name">{{ getStepImage(step.step)?.alt_text }}</span>
+            </div>
+          </div>
+        </p-card>
+        
+        <div class="add-step-btn-container">
+          <button 
+            pButton 
+            type="button" 
+            icon="pi pi-plus" 
+            label="Ajouter une étape"
+            class="p-button-outlined"
+            (click)="addStep()">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Total time: {{ totalTime }} min</label>
+    </div>
+
+    <div class="actions">
+      <button pButton label="Enregistrer" type="submit" [disabled]="form.invalid"></button>
+    </div>
+  </form>
+</div>
