@@ -1,0 +1,73 @@
+<div class="recipe-detail" *ngIf="recipe()">
+  <div class="recipe-header">
+    <button pButton icon="pi pi-arrow-left" class="p-button-text back-btn" (click)="goBack()"></button>
+    <h1>{{ recipe()!.name }}</h1>
+  </div>
+
+  <div class="recipe-meta">
+    <div class="meta-item">
+      <i class="pi pi-clock"></i>
+      <span>{{ recipe()!.preperationtime || 0 }} min préparation</span>
+    </div>
+    <div class="meta-item">
+      <i class="pi pi-bolt"></i>
+      <span>{{ recipe()!.cooktime || 0 }} min cuisson</span>
+    </div>
+    <div class="meta-item">
+      <i class="pi pi-users"></i>
+      <span>{{ recipe()!.servings || 1 }} portions</span>
+    </div>
+    <div class="meta-item">
+      <i class="pi pi-star-fill"></i>
+      <span>Difficulté: {{ recipe()!.difficulty }}/10</span>
+    </div>
+  </div>
+
+  <div class="recipe-description" *ngIf="recipe()!.description">
+    <p>{{ recipe()!.description }}</p>
+  </div>
+
+  <div class="ingredients-section" *ngIf="ingredients().length > 0">
+    <h2>Ingrédients</h2>
+    <div class="ingredients-list">
+      <div class="ingredient-item" *ngFor="let ing of ingredients()">
+        <i class="pi pi-check-circle"></i>
+        <span>{{ ing.quantity }} {{ ing.quantityunit }} {{ ing.name }}</span>
+        <span *ngIf="ing.optional" class="optional-tag">Optionnel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-section" *ngIf="steps().length > 0">
+    <h2>Étapes de préparation</h2>
+    <div class="steps-list">
+      <p-card *ngFor="let step of steps()" class="step-card">
+        <div class="step-header">
+          <span class="step-number">Étape {{ step.stepindex }}</span>
+          <span class="step-duration" *ngIf="step.duration">
+            <i class="pi pi-clock"></i> {{ step.duration }} min
+          </span>
+        </div>
+        <p class="step-description">{{ step.description }}</p>
+        <div class="step-image" *ngIf="getStepImage(step.stepid)">
+          <img [src]="getStepImage(step.stepid)?.image?.data" [alt]="getStepImage(step.stepid)?.alt_text" />
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <div class="no-data" *ngIf="!loading() && steps().length === 0 && ingredients().length === 0">
+    <p>Cette recette n'a pas encore d'étapes ou d'ingrédients.</p>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading()">
+  <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+  <p>Chargement de la recette...</p>
+</div>
+
+<div class="not-found" *ngIf="!loading() && !recipe()">
+  <i class="pi pi-exclamation-triangle" style="font-size: 3rem; color: #f59e0b;"></i>
+  <h2>Recette introuvable</h2>
+  <button pButton label="Retour aux recettes" (click)="goBack()"></button>
+</div>

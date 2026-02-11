@@ -89,3 +89,47 @@
     font-weight: 500;
   }
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .recipe-card {
+    .image {
+      height: 100px;
+    }
+    
+    .content h3 {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .recipe-card {
+    .image {
+      height: 80px;
+      
+      &.placeholder {
+        font-size: 1.5rem;
+      }
+    }
+    
+    .content {
+      padding: 0.5rem;
+      
+      h3 {
+        font-size: 0.85rem;
+      }
+      
+      .quantity {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .delete-btn {
+      width: 1.75rem;
+      height: 1.75rem;
+      top: 0.25rem;
+      right: 0.25rem;
+    }
+  }
+}

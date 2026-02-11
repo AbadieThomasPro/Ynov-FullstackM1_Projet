@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { helloService, getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, addRecipeIngredients, addRecipeSteps } from "../services/recipe.js";
+import { helloService, getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, addRecipeIngredients, addRecipeSteps, getRecipeIngredients, getRecipeSteps, getRecipeImages } from "../services/recipe.js";
 
 /**
  * Test endpoint
@@ -66,6 +66,54 @@ export const deleteRecipeController = async (req: Request, res: Response) => {
   const row = await deleteRecipe(id);
   if (!row) return res.status(404).json({ message: 'Not found' });
   res.status(200).json({ message: 'Deleted', row });
+};
+
+/**
+ * Get ingredients for a recipe
+ * GET /recipe/:id/ingredients
+ */
+export const getRecipeIngredientsController = async (req: Request, res: Response) => {
+  const recipeId = req.params.id;
+  if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
+  try {
+    const rows = await getRecipeIngredients(recipeId);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error getting recipe ingredients:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+/**
+ * Get steps for a recipe
+ * GET /recipe/:id/steps
+ */
+export const getRecipeStepsController = async (req: Request, res: Response) => {
+  const recipeId = req.params.id;
+  if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
+  try {
+    const rows = await getRecipeSteps(recipeId);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error getting recipe steps:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+/**
+ * Get images for a recipe
+ * GET /recipe/:id/images
+ */
+export const getRecipeImagesController = async (req: Request, res: Response) => {
+  const recipeId = req.params.id;
+  if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
+  try {
+    const rows = await getRecipeImages(recipeId);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error getting recipe images:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 /**

@@ -26,6 +26,10 @@ export const routes: Routes = [
         path: 'recipes/add',
         loadComponent: () => import('./pages/recipe/recipe-add/recipe-add.page').then(m => m.RecipeAddPage)
     },
+    {
+        path: 'recipes/:id',
+        loadComponent: () => import('./pages/recipe/recipe-detail/recipe-detail.page').then(m => m.RecipeDetailPage)
+    },
 
     //n'import quel route inconu redirige vers home
     {

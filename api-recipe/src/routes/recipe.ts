@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { helloController } from "../controllers/recipe.js";
-import { getAllRecipesController, getRecipeByIdController, createRecipeController, updateRecipeController, deleteRecipeController, addRecipeIngredientsController, addRecipeStepsController } from '../controllers/recipe.js';
+import { getAllRecipesController, getRecipeByIdController, createRecipeController, updateRecipeController, deleteRecipeController, addRecipeIngredientsController, addRecipeStepsController, getRecipeIngredientsController, getRecipeStepsController, getRecipeImagesController } from '../controllers/recipe.js';
 import { addStepImagesController } from '../controllers/image.js';
 
 const recipeRouter = Router();
@@ -255,6 +255,63 @@ recipeRouter.put('/:id', updateRecipeController);
  *         description: Recette non trouvée
  */
 recipeRouter.delete('/:id', deleteRecipeController);
+
+/**
+ * @openapi
+ * /recipe/{id}/ingredients:
+ *   get:
+ *     tags:
+ *       - Ingredients
+ *     summary: Récupère les ingrédients d'une recette
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Liste des ingrédients de la recette
+ */
+recipeRouter.get('/:id/ingredients', getRecipeIngredientsController);
+
+/**
+ * @openapi
+ * /recipe/{id}/steps:
+ *   get:
+ *     tags:
+ *       - Steps
+ *     summary: Récupère les étapes d'une recette
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Liste des étapes de la recette
+ */
+recipeRouter.get('/:id/steps', getRecipeStepsController);
+
+/**
+ * @openapi
+ * /recipe/{id}/images:
+ *   get:
+ *     tags:
+ *       - Images
+ *     summary: Récupère les images d'une recette
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Liste des images de la recette
+ */
+recipeRouter.get('/:id/images', getRecipeImagesController);
 
 /**
  * @openapi

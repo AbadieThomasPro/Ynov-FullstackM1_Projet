@@ -14,6 +14,7 @@ import { Store } from '@ngxs/store';
 import { AddRecipeIngredients } from '../../../store/recipe/recipe.actions';
 import { AddRecipeSteps } from '../../../store/step/step.actions';
 import { AddRecipeImages } from '../../../store/image/image.actions';
+import { ShowToast } from '../../../store/toast/toast.actions';
 import { StepState } from '../../../store/step/step.state';
 import { RecipeService } from '../../../store/recipe/recipe.service';
 import { Router } from '@angular/router';
@@ -264,12 +265,12 @@ export class RecipeAddPage {
     ).subscribe({
       next: () => {
         console.log('Recipe created successfully!');
-        alert('Recette créée avec succès !');
-        this.router.navigate(['/']);
+        this.store.dispatch(new ShowToast('success', 'Recette créée', 'La recette a été créée avec succès!'));
+        this.router.navigate(['/recipes']);
       },
       error: (err) => {
         console.error('Error creating recipe:', err);
-        alert('Erreur lors de la création de la recette');
+        this.store.dispatch(new ShowToast('error', 'Erreur', 'Erreur lors de la création de la recette'));
       }
     });
   }

@@ -10,6 +10,10 @@ export interface Recipe {
   avatarurl?: string | null;
   description?: string | null;
   servings?: number | null;
+  preperationtime?: number | null;
+  cooktime?: number | null;
+  totaltime?: number | null;
+  difficulty?: number | null;
   createdat?: string;
   updatedat?: string | null;
 }

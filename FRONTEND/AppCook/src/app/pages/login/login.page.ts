@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { FormComponent, FormField } from '../../components/form/form.component';
 import { Login } from '../../store/user/user.actions';
+import { ShowToast } from '../../store/toast/toast.actions';
 
 @Component({
   selector: 'app-login',
@@ -45,12 +46,13 @@ export class LoginPage {
     })).subscribe({
       next: () => {
         console.log('Login successful!');
+        this.store.dispatch(new ShowToast('success', 'Connexion réussie', 'Bienvenue!'));
         // Redirection vers la page d'accueil après connexion
         this.router.navigate(['/']);
       },
       error: (err) => {
         console.error('Login failed:', err);
-        // TODO: Afficher un message d'erreur à l'utilisateur
+        this.store.dispatch(new ShowToast('error', 'Échec de la connexion', 'Email ou mot de passe incorrect'));
       }
     });
   }

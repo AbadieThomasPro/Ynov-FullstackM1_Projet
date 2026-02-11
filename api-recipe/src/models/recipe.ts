@@ -94,6 +94,49 @@ export const updateRecipeById = async (id: string, patch: Record<string, any>) =
 };
 
 /**
+ * Get all ingredients for a recipe (with ingredient names)
+ * @param recipeId - Recipe UUID
+ * @returns Array of recipe ingredients with ingredient details
+ */
+export const findRecipeIngredients = async (recipeId: string) => {
+  const res = await pool.query(
+    `SELECT ri.*, i.ingredientname as name
+     FROM recipe_ingredients ri 
+     JOIN ingredients i ON ri.ingredientid = i.ingredientid 
+     WHERE ri.recipeid = $1 
+     ORDER BY ri."order"`,
+    [recipeId]
+  );
+  return res.rows;
+};
+
+/**
+ * Get all steps for a recipe
+ * @param recipeId - Recipe UUID
+ * @returns Array of recipe steps ordered by stepIndex
+ */
+export const findRecipeSteps = async (recipeId: string) => {
+  const res = await pool.query(
+    `SELECT * FROM recipe_steps WHERE recipeid = $1 ORDER BY stepindex`,
+    [recipeId]
+  );
+  return res.rows;
+};
+
+/**
+ * Get all images for a recipe
+ * @param recipeId - Recipe UUID
+ * @returns Array of recipe images ordered by order
+ */
+export const findRecipeImages = async (recipeId: string) => {
+  const res = await pool.query(
+    `SELECT * FROM images WHERE recipeid = $1 ORDER BY "order"`,
+    [recipeId]
+  );
+  return res.rows;
+};
+
+/**
  * Insert a recipe ingredient
  * @param recipeId - Recipe UUID
  * @param ingredientId - Ingredient UUID

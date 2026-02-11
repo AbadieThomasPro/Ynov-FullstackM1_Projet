@@ -39,8 +39,7 @@ export class RecipePage {
   }
 
   onCardClick(id: string) {
-    // navigate or open details — left as TODO
-    console.log('card clicked', id);
+    this.router.navigate(['/recipes', id]);
   }
 
   onAdd() {
