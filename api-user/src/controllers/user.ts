@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express';
-import { listUsersService, deleteUserService, testApiUserService, getUserByIdService } from '../services/user.js';
+import { listUsers as listUsersModel, deleteUser as deleteUserModel, getUserById as getUserByIdModel } from '../models/user.js';
 
 /**
  * List all users
  * GET /user
  */
 const listUsersController = async (req: Request, res: Response) => {
-    const users = await listUsersService();
+    const users = await listUsersModel();
     return res.status(200).json(users);
 };
 
@@ -17,7 +17,7 @@ const listUsersController = async (req: Request, res: Response) => {
 const deleteUserController = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'id param is required' });
-    const user = await deleteUserService(id);
+    const user = await deleteUserModel(id);
     return res.status(200).json(user);
 };
 
@@ -25,8 +25,8 @@ const deleteUserController = async (req: Request, res: Response) => {
  * Test API user endpoint
  * GET /user/test
  */
-const testApiUserController = async (req: Request, res: Response) => {
-    const result = await testApiUserService();
+const testApiUserController = (_req: Request, res: Response) => {
+    const result = "Réponses test api-user";
     return res.status(200).json(result);
 }
 
@@ -37,7 +37,7 @@ const testApiUserController = async (req: Request, res: Response) => {
 const getUserByIdController = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'id param is required' });
-    const user = await getUserByIdService(id);
+    const user = await getUserByIdModel(id);
     if (!user) return res.status(404).json({ error: 'User not found' });
     return res.status(200).json(user);
 }

@@ -1,12 +1,13 @@
 import type { Request, Response } from "express";
-import { helloService, getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, addRecipeIngredients, addRecipeSteps, getRecipeIngredients, getRecipeSteps, getRecipeImages } from "../services/recipe.js";
+import { addRecipeIngredients, addRecipeSteps } from "../services/recipe.js";
+import { findAllRecipes, findRecipeById, insertRecipe, updateRecipeById, deleteRecipeById, findRecipeIngredients, findRecipeSteps, findRecipeImages } from "../models/recipe.js";
 
 /**
  * Test endpoint
  * GET /recipe/hello
  */
 export const helloController = (_req: Request, res: Response) => {
-  const message = helloService();
+  const message = 'Hello from Recipe API!';
   res.status(200).json({ message });
 };
 
@@ -15,7 +16,7 @@ export const helloController = (_req: Request, res: Response) => {
  * GET /recipe
  */
 export const getAllRecipesController = async (_req: Request, res: Response) => {
-  const rows = await getAllRecipes();
+  const rows = await findAllRecipes();
   res.status(200).json(rows);
 };
 
@@ -26,7 +27,7 @@ export const getAllRecipesController = async (_req: Request, res: Response) => {
 export const getRecipeByIdController = async (req: Request, res: Response) => {
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: 'Missing id' });
-  const row = await getRecipeById(id);
+  const row = await findRecipeById(id);
   if (!row) return res.status(404).json({ message: 'Not found' });
   res.status(200).json(row);
 };
@@ -38,7 +39,7 @@ export const getRecipeByIdController = async (req: Request, res: Response) => {
  */
 export const createRecipeController = async (req: Request, res: Response) => {
   const data = req.body;
-  const row = await createRecipe(data);
+  const row = await insertRecipe(data);
   res.status(201).json(row);
 };
 
@@ -51,7 +52,7 @@ export const updateRecipeController = async (req: Request, res: Response) => {
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: 'Missing id' });
   const data = req.body;
-  const row = await updateRecipe(id, data);
+  const row = await updateRecipeById(id, data);
   if (!row) return res.status(404).json({ message: 'Not found or nothing to update' });
   res.status(200).json(row);
 };
@@ -63,7 +64,7 @@ export const updateRecipeController = async (req: Request, res: Response) => {
 export const deleteRecipeController = async (req: Request, res: Response) => {
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: 'Missing id' });
-  const row = await deleteRecipe(id);
+  const row = await deleteRecipeById(id);
   if (!row) return res.status(404).json({ message: 'Not found' });
   res.status(200).json({ message: 'Deleted', row });
 };
@@ -76,7 +77,7 @@ export const getRecipeIngredientsController = async (req: Request, res: Response
   const recipeId = req.params.id;
   if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
   try {
-    const rows = await getRecipeIngredients(recipeId);
+  const rows = await findRecipeIngredients(recipeId);
     res.status(200).json(rows);
   } catch (error) {
     console.error('Error getting recipe ingredients:', error);
@@ -92,7 +93,7 @@ export const getRecipeStepsController = async (req: Request, res: Response) => {
   const recipeId = req.params.id;
   if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
   try {
-    const rows = await getRecipeSteps(recipeId);
+  const rows = await findRecipeSteps(recipeId);
     res.status(200).json(rows);
   } catch (error) {
     console.error('Error getting recipe steps:', error);
@@ -108,7 +109,7 @@ export const getRecipeImagesController = async (req: Request, res: Response) => 
   const recipeId = req.params.id;
   if (!recipeId) return res.status(400).json({ message: 'Missing recipeId' });
   try {
-    const rows = await getRecipeImages(recipeId);
+  const rows = await findRecipeImages(recipeId);
     res.status(200).json(rows);
   } catch (error) {
     console.error('Error getting recipe images:', error);
