@@ -11,24 +11,24 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ## 📑 Table des matières
 
-- [✨ Fonctionnalités](#-fonctionnalités)
-  - [🍽️ Gestion des recettes](#-gestion-des-recettes)
-  - [🧊 Gestion du frigo & ingrédients](#-gestion-du-frigo--ingrédients)
-  - [🤖 Systèmes intelligents & automatisations](#-systèmes-intelligents--automatisations)
-  - [🗂️ Organisation des repas & courses](#-organisation-des-repas--courses)
-  - [🔍 Recherche et navigation](#-recherche-et-navigation)
-  - [🔐 Gestion utilisateur & expérience](#-gestion-utilisateur--expérience)
-- [🛠️ Stack technique & choix technologiques](#-stack-technique--choix-technologiques)
-- [🏛️ Architecture et répartition des services](#architecture-et-répartition-des-services)
-- [📎 Annexes](#annexes)
-  - [🧾 Création de la table users dans PostgreSQL](#création-de-la-table-users-dans-postgresql)
-  - [📌 Structure de la table dans Adminer](#structure-de-la-table-dans-adminer)
+- [✨ Fonctionnalités](#fonctionnalites)
+  - [🍽️ Gestion des recettes](#gestion-des-recettes)
+  - [🧊 Gestion du frigo & ingrédients](#frigo-et-ingredients)
+  - [🤖 Systèmes intelligents & automatisations](#systemes-intelligents)
+  - [🗂️ Organisation des repas & courses](#organisation-des-repas-et-courses)
+  - [🔍 Recherche et navigation](#recherche-et-navigation)
+  - [🔐 Gestion utilisateur & expérience](#gestion-utilisateur-et-experience)
+- [🛠️ Stack technique & choix technologiques](#stack-technique)
+- [🏛️ Architecture et répartition des services](#architecture-et-repartition-des-services)
 - [🚀 Lancer l'application](#lancer-lapplication)
+
 
 ---
 
-## ✨ Fonctionnalitées:
+<a id="fonctionnalites"></a>
+## ✨ Fonctionnalités:
 
+<a id="gestion-des-recettes"></a>
 ### 🍽️ Gestion des recettes
 
 - **CRUD complet des recettes** : création, lecture, modification et suppression
@@ -38,28 +38,33 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 - **Filtre par allergènes** : exclusion des recettes contenant certains ingrédients
 - **Minuteur intégré** : timer disponible pour chaque étape ou temps de cuisson
 
+<a id="frigo-et-ingredients"></a>
 ### 🧊 Gestion du frigo & ingrédients
 
 - **Gestion du frigo avancée** : ajout des aliments avec quantité et date d’expiration
 - **Alertes de péremption** : notifications lorsque les ingrédients approchent de la date limite
 - **Scan de code-barres** : ajout automatique d’un ingrédient au frigo
 
+<a id="systemes-intelligents"></a>
 ### 🤖 Systèmes intelligents & automatisations
 
 - **Suggestions automatiques** : recommandations de recettes basées sur les ingrédients disponibles
 - **Analyse nutritionnelle automatique** _(API Edamam)_ : calories, macros et valeurs nutritionnelles calculées automatiquement
 - **Suggestion de menus équilibrés** : menus hebdomadaires thématisés (“healthy”, “économique”, “rapide”…)
 
+<a id="organisation-des-repas-et-courses"></a>
 ### 🗂️ Organisation des repas & courses
 
 - **Liste des repas de la semaine** : planification hebdomadaire avec sélection des recettes
 - **Liste de courses** : génération automatique des ingrédients nécessaires
 - **Optimisation de la liste de courses** : regroupement par catégories (boucherie, légumes…) et calcul automatique des quantités
 
+<a id="recherche-et-navigation"></a>
 ### 🔍 Recherche et navigation
 
 - **Recherche avancée** : filtrage par ingrédients, temps de préparation et mots-clés
 
+<a id="gestion-utilisateur-et-experience"></a>
 ### 🔐 Gestion utilisateur & expérience
 
 - **Authentification** : inscription, connexion, sécurisation des routes
@@ -68,6 +73,7 @@ Grâce à ses outils avancés (analyse nutritionnelle, alertes de péremption, m
 
 ---
 
+<a id="stack-technique"></a>
 ## 🛠️ Stack technique & choix technologiques
 
 ### 🔷 **Frontend : Angular**
@@ -108,6 +114,7 @@ J’ai choisi **Angular** pour plusieurs raisons :
 
 ---
 
+<a id="architecture-et-repartition-des-services"></a>
 ## 🏛️ Architecture et répartition des services
 
 ### Architecture — vue d'ensemble
@@ -485,25 +492,8 @@ erDiagram
 ```
 [![](https://mermaid.ink/img/pako:eNq1Ge1O3DjwVaxI1fUkqGj5Xul-7MFSoVaA-Lgfp0rIm8xmfXXinO0sbCkPcG9xP8tz7IvdONl82glL2QO04Pme8XhmbB48XwTgDTyQx4yGkkZfYoJfb96Q317wVTL9PrwakWP8OT87W_wzuiI3V6NL8pYmbDNVIH99hfT800hR5CFfZICUBRn0NCAXnyr4jEp_SiWBiDJObhyYhCp1J2TgwChIA2HD6YxqKm8kr1Aa7jUZMwexFBxy6GPdAaWFpCFYLrCm-XW3TmrwsUCxNCYTyYIQ2jLiUELAINYtLhZrCEGSv1Maa6bntrVpzHQFDagGAvcJk1QzER_j0uXKVCQJ6rzlTGnLIQM8Xc2p_8F4XwL-CoZteJqYX0GHRwmncYyG1J0plAR07kywCChvIDI92UeX7xefbi33JfgsgSayYVtOcDuhMyGZBvsQlJiXRL1U69TpiyjCDbF1LREuTZbEPhu69kpFlHPceGISMA5b522pvSU-oRKBR6VlTo_WVtguR0enF6O8tOUuv7645XLsaNdyw86_mEbwfKCzuAWgfMkSc6Tt44U8Mwy1sjGJhATySnDN6soKAl-Ir26MFpryJqrc2oBNJsxPef1ElxIpx1wGu-4xdSHZrDy9ZQ4l6RgLztRx4p-pBM6sozMwRfqylXyFdXlSHom0noMFcsbgTnXglonbwv6lRDwmmiXK3l0lUumDDcdCFaa03gHiNALJfNSh9EhpFjWCVK9W1_PEgVFA0Q7KW2HiVKG94mszUtV2_AEhjTsQgN2SubEfeaohPpHgKsNVK7DPQqNNuM5DRXBmn4wKeYTOhULOW-dktShiboYsXmM4hpyDDCF2bEs-LwyDGXPlQf-RngKffGYTOGlNCw4CgG8geyjOU61Y0CfjPIEYgu7O9YJdXa091verezgoMDeNIaE86jgA1v0utkRkIS1Og8sdpSGxHTHQlbtiGULDFAdw_5J6HaR5Se6uI80zFWEWOQJvwC9r40sX6_Bccybr-RCX0zTXt8ZNh7EzzDRhG5uBX21soT-TthZz41Tj4IV7YZtcol5mducwPOGCars95uBECg31utQAX2StpN54cvSEauWCddErqk3qQXBCtZ4PfRaoFUi6pPlUjsV0Hhhy1YvstCcNqVRuaKfPbFzf4xqw22vuhHXSi4ClkRvaGYspFh_MWLw6OlCywNns7ouQa4bo6LO3_rId9lTmWsfs77sFoetC0aXG7xdeoKuW7irJq0n_ibuXpqF9tBHYYS1iuo3slbV64yvaAIsSITWNnRtMl2OFrbDEdLhQ4rsdWVX4T8T7Z29pl6PPw-vT87Mrspnf2Mzz05renL5_39wUD-X7zYB88RKh1OIHDkWei7DxOmLIfbl4ctOW7w6ZVFywCXNTWq8AhiNfOenLG3xmQL4oJZdIFzEam4g4IIt_C_I1701-g17bpbkZoPqwmbuOQ6CpmZ59xejnTDXDHVw84XUIT4P3vOp8MDSs1ExwZPGkKVL1si6ns4opBxQ8Dck2C-M8VRo3zLyB9OpZDlaVHgQsnkSvohpPTk2qjHcqqY1DGRPlkGJGluAYsD6onp1oCSiXzylut4HMzQRjkm19LZNLih7Gdsb0acxqumHCP0LcBjoDv-DLcN3kK_pUFdu6bctKu_gRl0Iqwj4BFZ8jrV1jQZF07WNF9eIJCZiCdVeJ07Pr0eWmqRRX5C067EOi0yxzXv_QhqxnOBMPyBEGWgKnebJpaR5-lAksqiFjqvAzwBBhzmLpViXzMcaM8F-w9_LFkymZmQBi6jsauEEyM3HuQkGYDgZsThpFluHFKfmIQb2jc2_DC_Fe7g20TGHDw3tsRM3Sy9opJscUcNjxTJgDmNCUZ6n4iGwJjf8UIio4pUjDqTeYUK5wlb9rLf-bU5IAXi9l9u7kDd5vbR9mQrzBg3fvDTb33---29_Z2tnaOtjaO9g63Nvw5gje3n23c7h9sLuzd7C9t723_7jhfcvUvn-3v_9he-_DAX4j9vBw9_E_1wMSew?type=png)](https://mermaid.live/edit#pako:eNq1Ge1O3DjwVaxI1fUkqGj5Xul-7MFSoVaA-Lgfp0rIm8xmfXXinO0sbCkPcG9xP8tz7IvdONl82glL2QO04Pme8XhmbB48XwTgDTyQx4yGkkZfYoJfb96Q317wVTL9PrwakWP8OT87W_wzuiI3V6NL8pYmbDNVIH99hfT800hR5CFfZICUBRn0NCAXnyr4jEp_SiWBiDJObhyYhCp1J2TgwChIA2HD6YxqKm8kr1Aa7jUZMwexFBxy6GPdAaWFpCFYLrCm-XW3TmrwsUCxNCYTyYIQ2jLiUELAINYtLhZrCEGSv1Maa6bntrVpzHQFDagGAvcJk1QzER_j0uXKVCQJ6rzlTGnLIQM8Xc2p_8F4XwL-CoZteJqYX0GHRwmncYyG1J0plAR07kywCChvIDI92UeX7xefbi33JfgsgSayYVtOcDuhMyGZBvsQlJiXRL1U69TpiyjCDbF1LREuTZbEPhu69kpFlHPceGISMA5b522pvSU-oRKBR6VlTo_WVtguR0enF6O8tOUuv7645XLsaNdyw86_mEbwfKCzuAWgfMkSc6Tt44U8Mwy1sjGJhATySnDN6soKAl-Ir26MFpryJqrc2oBNJsxPef1ElxIpx1wGu-4xdSHZrDy9ZQ4l6RgLztRx4p-pBM6sozMwRfqylXyFdXlSHom0noMFcsbgTnXglonbwv6lRDwmmiXK3l0lUumDDcdCFaa03gHiNALJfNSh9EhpFjWCVK9W1_PEgVFA0Q7KW2HiVKG94mszUtV2_AEhjTsQgN2SubEfeaohPpHgKsNVK7DPQqNNuM5DRXBmn4wKeYTOhULOW-dktShiboYsXmM4hpyDDCF2bEs-LwyDGXPlQf-RngKffGYTOGlNCw4CgG8geyjOU61Y0CfjPIEYgu7O9YJdXa091verezgoMDeNIaE86jgA1v0utkRkIS1Og8sdpSGxHTHQlbtiGULDFAdw_5J6HaR5Se6uI80zFWEWOQJvwC9r40sX6_Bccybr-RCX0zTXt8ZNh7EzzDRhG5uBX21soT-TthZz41Tj4IV7YZtcol5mducwPOGCars95uBECg31utQAX2StpN54cvSEauWCddErqk3qQXBCtZ4PfRaoFUi6pPlUjsV0Hhhy1YvstCcNqVRuaKfPbFzf4xqw22vuhHXSi4ClkRvaGYspFh_MWLw6OlCywNns7ouQa4bo6LO3_rId9lTmWsfs77sFoetC0aXG7xdeoKuW7irJq0n_ibuXpqF9tBHYYS1iuo3slbV64yvaAIsSITWNnRtMl2OFrbDEdLhQ4rsdWVX4T8T7Z29pl6PPw-vT87Mrspnf2Mzz05renL5_39wUD-X7zYB88RKh1OIHDkWei7DxOmLIfbl4ctOW7w6ZVFywCXNTWq8AhiNfOenLG3xmQL4oJZdIFzEam4g4IIt_C_I1701-g17bpbkZoPqwmbuOQ6CpmZ59xejnTDXDHVw84XUIT4P3vOp8MDSs1ExwZPGkKVL1si6ns4opBxQ8Dck2C-M8VRo3zLyB9OpZDlaVHgQsnkSvohpPTk2qjHcqqY1DGRPlkGJGluAYsD6onp1oCSiXzylut4HMzQRjkm19LZNLih7Gdsb0acxqumHCP0LcBjoDv-DLcN3kK_pUFdu6bctKu_gRl0Iqwj4BFZ8jrV1jQZF07WNF9eIJCZiCdVeJ07Pr0eWmqRRX5C067EOi0yxzXv_QhqxnOBMPyBEGWgKnebJpaR5-lAksqiFjqvAzwBBhzmLpViXzMcaM8F-w9_LFkymZmQBi6jsauEEyM3HuQkGYDgZsThpFluHFKfmIQb2jc2_DC_Fe7g20TGHDw3tsRM3Sy9opJscUcNjxTJgDmNCUZ6n4iGwJjf8UIio4pUjDqTeYUK5wlb9rLf-bU5IAXi9l9u7kDd5vbR9mQrzBg3fvDTb33---29_Z2tnaOtjaO9g63Nvw5gje3n23c7h9sLuzd7C9t723_7jhfcvUvn-3v_9he-_DAX4j9vBw9_E_1wMSew)
 
-## 📎Annexes:
 
-### 🧾 Création de la table `users` dans PostgreSQL
-
-La table **users** a été créée directement depuis **Adminer**.  
-Les captures ci-dessous confirment sa présence ainsi que sa structure dans la base de données.
-
-#### 📌 Requête de création / aperçu de la table
-
-![Création de la table users ](./doc/requete-table-user.png)
-
-#### 📌 Structure de la table dans Adminer
-
-![Table users](./doc/table-users.png)
-
-Ces éléments prouvent que la table est correctement enregistrée dans la base PostgreSQL et accessible par les services backend.
-
-
-### Lancer l'application
+## Lancer l'application
 
 
 
@@ -515,14 +505,29 @@ git clone https://github.com/AbadieThomasPro/Ynov-FullstackM1_Projet.git
 cd Ynov-FullstackM1_Projet
 ```
 
+2. **Lancer l'application avec Docker** 
 
 
-2. **Configurer l’environnement**
+Vérifie que [Docker](https://www.docker.com/products/docker-desktop/) et [Docker Compose](https://docs.docker.com/compose/) sont installés sur ta machine.
+
+Crée le network Docker (si ce n'est pas déjà fait):
+```bash
+docker network create app-network
+```
+
+Puis lance tous les services :
+```bash
+docker-compose up --build
+```
+
+L’application sera accessible à l’adresse : [http://localhost:4200](http://localhost:4200) (ou sur le port configuré dans le `docker-compose.yml` pour le frontend).  
+Les API backend seront disponibles sur les ports définis dans le même fichier.
 
 
-- Vérifie que [Docker](https://www.docker.com/products/docker-desktop/) et [Docker Compose](https://docs.docker.com/compose/) sont installés sur ta machine.
+3. **Configurer l’environnement local**
 
-- Crée un fichier `.env` à la racine du projet. Ce fichier doit contenir toutes les variables d’environnement utilisées dans le `docker-compose.yml` (exemple : mots de passe, ports, secrets, etc.).
+
+Pour le développement local, il faut créer un fichier `.env` à la racine du projet. Ce fichier doit contenir toutes les variables d’environnement utilisées dans le `docker-compose.yml` (exemple : mots de passe, ports, secrets, etc.) .
 
 ```env
 # Pour user-db
@@ -549,20 +554,3 @@ PGHOST_RECIPE=db-recipe
 PGPORT_RECIPE=5432
 PGDATABASE_RECIPE=recipes_db
 ```
-
-
-3. **Lancer l'application avec Docker** 
-
-
-Crée le network Docker (si ce n'est pas déjà fait):
-```bash
-docker network create app-network
-```
-
-Puis lance tous les services :
-```bash
-docker-compose up --build
-```
-
-L’application sera accessible à l’adresse : [http://localhost:4200](http://localhost:4200) (ou sur le port configuré dans le `docker-compose.yml` pour le frontend).  
-Les API backend seront disponibles sur les ports définis dans le même fichier.
