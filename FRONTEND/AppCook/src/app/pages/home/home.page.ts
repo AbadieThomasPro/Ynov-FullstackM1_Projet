@@ -20,8 +20,6 @@ import { Logout } from '../../store/user/user.actions';
   styleUrls: ['./home.page.scss']
 })
 export class HomePage {
-  @Select(TestState.message) message$!: Observable<string | null>;
-  currentMessage: string | null = null;
 
 
   constructor(private store: Store) {
@@ -30,17 +28,5 @@ export class HomePage {
     if (!current?.userid) {
       this.store.dispatch(new Logout());
     }
-  }
-
-  onClick() {
-    
-    this.store.dispatch(new GetTest()).subscribe(() => {
-      console.log('[HomePage] dispatched GetTest');
-
-      this.store.selectOnce(TestState.message).subscribe(msg => {
-        console.log('[HomePage] message after dispatch:', msg);
-        this.currentMessage = msg;
-      });
-    });
   }
 }

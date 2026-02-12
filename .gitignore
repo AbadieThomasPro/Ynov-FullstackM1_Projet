@@ -75,6 +75,8 @@ reports/
 
 # Documentation
 primeNg-LLM.txt
+MODIFICATIONS-SUMMARY.md
+agent-clean_code.md
 
 # Keep lockfiles - commit them to ensure reproducible installs
 !package-lock.json
