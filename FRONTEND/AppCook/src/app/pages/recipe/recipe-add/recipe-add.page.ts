@@ -177,6 +177,7 @@ export class RecipeAddPage {
     const userId = localStorage.getItem('userid');
     if (!userId) {
       console.error('User not logged in');
+      this.store.dispatch(new ShowToast('error', 'Erreur', 'Vous n\'êtes pas connecté'));
       return;
     }
 
